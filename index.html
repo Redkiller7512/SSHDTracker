@@ -25,10 +25,16 @@ h2{margin:0 0 8px;font-size:15px}
 .mk.acc{background:var(--org)}.mk.lock{background:#dc2626;color:#fff}.mk.done{background:var(--ok)}.mk.none{background:#6b7280}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile.ghost img,.sw.ghost img{opacity:.5;filter:grayscale(1) brightness(.8)}.sw b{position:absolute;right:-4px;bottom:-4px;font-size:11px;background:#000c;border-radius:4px;padding:0 3px}.tile b{position:absolute;right:2px;bottom:0;font-size:12px;background:#000b;border-radius:4px;padding:0 3px}
 .blocks{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;align-items:flex-start}
-.swblock{position:relative;width:190px;aspect-ratio:294/424;background:url(img/Sword_Block.png) center/100% 100% no-repeat}
+.swblock{position:relative;width:180px;aspect-ratio:294/424;background:url(img/Sword_Block.png) center/100% 100% no-repeat}
 .cases{display:flex;flex-wrap:wrap;gap:10px}.cname{font-size:12px;color:var(--mut);margin-bottom:2px}
-.tray{position:relative;width:176px;aspect-ratio:237/194;background:url(img/tablets_slot.png) center/100% 100% no-repeat}
+.tray{position:relative;width:195px;aspect-ratio:237/194;background:url(img/tablets_slot.png) center/100% 100% no-repeat}
 .sw{position:absolute;transform:translate(-50%,-50%);cursor:pointer}.sw img{display:block;width:100%}
+.tile.gc{width:auto;grid-column:span 2;justify-content:flex-start;gap:4px;padding:0 5px 0 3px;cursor:default}.tile.gc img{max-width:40px;max-height:44px}.tile.gc b{right:auto;left:26px;bottom:1px}.gcb{display:flex;flex-direction:column;gap:3px;margin-left:auto}.gcb button{padding:1px 8px;font-size:11px;line-height:1.35;border-radius:4px;min-width:52px}
+.band{grid-column:1/-1;margin-bottom:0}.bandrow{display:flex;flex-wrap:wrap;gap:10px 18px;justify-content:space-around}.dg{display:flex;flex-direction:column;align-items:center;gap:4px}
+.dn{font-weight:800;font-size:16px;letter-spacing:1px;padding:0 8px;border-radius:4px;cursor:pointer;text-decoration-color:var(--bad);text-decoration-thickness:3px}.dn:hover{background:#ffffff14}.dn.dead{color:var(--mut);text-decoration-line:line-through}.dn.nb{cursor:default}.dn.nb:hover{background:none}
+.dk{display:flex;gap:4px}.tile.sm{width:42px;height:42px}.tile.sm img{max-width:36px;max-height:36px}.tile.sm b{font-size:11px}
+.swcol{display:flex;flex-direction:column;align-items:flex-end;gap:2px}.wmax{font-size:12px;color:var(--mut);text-align:right}.wmax b{color:var(--warn);font-size:14px}
+.sw b.cnt{left:50%;right:auto;transform:translateX(-50%);bottom:3%;font-size:12px}
 .crumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 #items div{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed var(--line)}#items b{color:var(--acc)}
 details.g{border:1px solid var(--line);border-radius:6px;margin-bottom:6px;background:var(--bg)}
@@ -50,13 +56,15 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
   <span id="status">Déconnecté</span>
 </header>
 <main>
+  <section class="panel band"><div class="bandrow" id="band"></div></section>
   <div>
     <section class="panel">
       <div class="crumbs" id="crumbs"></div>
       <div class="mapwrap" id="map"></div>
     </section>
     <section class="panel"><h2>Objets <span id="icount"></span></h2>
-      <div class="bar"><input id="mi" list="itemlist" placeholder="Ajouter un objet à la main…" size="26"><datalist id="itemlist"></datalist><button id="madd">+</button></div>
+      <div class="bar"><input id="mi" list="itemlist" placeholder="Ajouter un objet à la main…" size="26"><datalist id="itemlist"></datalist><button id="madd">+</button>
+        <label class="mut" title="Zone où tu apparais dans le jeu : tu peux y retourner à tout moment, sa tablette n'est donc plus requise par les checks">Apparition <select id="spawn"><option value="skyloft">Célesbourg (Skyloft)</option><option value="faron">Firone (Faron)</option><option value="eldin">Ordinn (Eldin)</option><option value="lanayru">Lanelle (Lanayru)</option></select></label></div>
       <div id="grid"></div><div id="items"></div><p class="mut">Clic sur une icône : monte d'un niveau ; une fois au maximum, un clic remet à 0 · clic droit : −1. Seuls les ajouts manuels sont modifiables (pas les objets reçus du serveur).</p></section>
     <section class="panel"><h2>Notes</h2><textarea id="notes" placeholder="Tes notes…"></textarea>
       <div class="bar" style="margin-top:6px"><button class="sec" id="exp">Exporter l'état</button><button class="sec" id="imp">Importer</button><button class="sec" id="rst">Réinitialiser</button><input type="file" id="file" accept=".json" hidden></div>
@@ -96,6 +104,7 @@ const TOGGLES = { tadtone_shuffle: 'Tadtones', gratitude_crystal_shuffle: 'Grati
   goddess_chest_shuffle: 'Goddess Chests', gossip_stone_treasure_shuffle: 'Gossip Stone Treasures', underground_rupee_shuffle: 'Underground Rupees', npc_closet_shuffle: 'Closets',
   loftwing_check: 'Loftwing' }; // loftwing_check : check local (hors serveur) géré à la main, voir LOFTWING plus bas
 // Nombre maximal d'exemplaires par objet (par défaut : nombre d'icônes − 1)
+const GC = 'Gratitude Crystal', GCP = 'Gratitude Crystal Pack', GC_MAX = 80; // un pack = 5 cristaux ; un seul objet « Cristaux de gratitude », deux boutons (+1 / +5)
 const MAXC = { 'Gratitude Crystal': 80, 'Gratitude Crystal Pack': 16, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4, 'Extra Wallet': 3, 'Progressive Pouch': 5, 'Song of the Hero Part': 4 };
 const REAL = { 'Song of the Hero': 'Song of the Hero Part' }; // objet affiché -> objet réellement compté
 // Célestrier : n'existe pas comme check dans le monde Archipelago ; check local (code négatif), activable dans les réglages, coché à la main
@@ -103,7 +112,9 @@ const LOFTWING = ['Knight Academy - Célestrier (Loftwing)', -1, 'Knight Academy
 D.locations.push(LOFTWING);
 const CHOICES = { rupee_shuffle: ['vanilla', 'beginner', 'intermediate', 'advanced'], beedle_shop_shuffle: ['vanilla', 'junk_only', 'randomized'] };
 const SKIP = new Set(['damage_multiplier', 'logic_rules', 'goal', 'music_randomization', 'triforce_shuffle', 'random_starting_spawn']); // ordre des choix différent entre AP et randomizer
-const defaults = () => ({ ...Object.fromEntries(Object.keys(TOGGLES).map((k) => [k, false])), rupee_shuffle: 'vanilla', beedle_shop_shuffle: 'randomized', trial_treasure_shuffle: '0' });
+const defaults = () => ({ ...Object.fromEntries(Object.keys(TOGGLES).map((k) => [k, false])), rupee_shuffle: 'vanilla', beedle_shop_shuffle: 'randomized', trial_treasure_shuffle: '0', spawn_zone: 'skyloft' });
+// Zone d'apparition -> zone de surface accessible dès le départ (ce qui rend la tablette correspondante inutile)
+const SPAWN = { faron: ['Faron Pillar', 'Emerald Tablet'], eldin: ['Eldin Pillar', 'Ruby Tablet'], lanayru: ['Lanayru Pillar', 'Amber Tablet'] };
 
 // ---- État persistant ----
 const fresh = () => ({ opts: defaults(), over: {}, manual: [], mitems: {}, apChecked: [], apItems: {}, active: null, notes: '', srv: '', slot: '', sel: { zone: null, area: null }, q: '', ty: '', hide: false, lg: true });
@@ -137,8 +148,8 @@ function inventory() {
   return inv;
 }
 function logic() {
-  const inv = inventory(), key = JSON.stringify([inv, st.over]);
-  if (logicCache.key !== key) logicCache = { key, res: window.SSHDEngine.compute(L, inv, st.over, NAMES) };
+  const inv = inventory(), sp = SPAWN[st.opts.spawn_zone], key = JSON.stringify([inv, st.over, sp]);
+  if (logicCache.key !== key) logicCache = { key, res: window.SSHDEngine.compute(L, inv, st.over, NAMES, sp ? [sp[0]] : []) };
   return logicCache.res;
 }
 
@@ -284,25 +295,36 @@ const ICONS = window.SSHD_ICONS || {};
 const maxOf = (n) => MAXC[n] || (ICONS[n] ? Math.max(1, ICONS[n].i.length - 1) : 1);
 const real = (n) => REAL[n] || n;
 const countOf = (n) => { const r = real(n); return (st.apItems[r] || 0) + (st.mitems[r] || 0) + (r !== n ? 4 * ((st.apItems[n] || 0) + (st.mitems[n] || 0)) : 0); }; // Song of the Hero = 4 parties
-const BLOCK = new Set(['Progressive Sword', 'Progressive Wallet', 'Emerald Tablet', 'Ruby Tablet', 'Amber Tablet', "Farore's Courage", "Nayru's Wisdom", "Din's Power", 'Song of the Hero', 'Song of the Hero Part']);
+// Bandeau des donjons : [initiales, nom, petites clés (Earth Temple : morceaux de la clé du donjon), clé du boss, check « Defeat Boss »]
+const DUNGEONS = [['SV', 'Skyview Temple', 'Skyview Temple Small Key', 'Skyview Temple Boss Key', 'Skyview Temple - Defeat Boss'],
+  ['ET', 'Earth Temple', 'Key Piece', 'Earth Temple Boss Key', 'Earth Temple - Defeat Boss'],
+  ['LMF', 'Lanayru Mining Facility', 'Lanayru Mining Facility Small Key', 'Lanayru Mining Facility Boss Key', 'Lanayru Mining Facility - Defeat Boss'],
+  ['AC', 'Ancient Cistern', 'Ancient Cistern Small Key', 'Ancient Cistern Boss Key', 'Ancient Cistern - Defeat Boss'],
+  ['SSH', 'Sandship', 'Sandship Small Key', 'Sandship Boss Key', 'Sandship - Defeat Boss'],
+  ['FS', 'Fire Sanctuary', 'Fire Sanctuary Small Key', 'Fire Sanctuary Boss Key', 'Fire Sanctuary - Defeat Boss'],
+  ['SK', 'Sky Keep', 'Sky Keep Small Key', null, null]];
+const BLOCK = new Set(['Progressive Sword', 'Progressive Wallet', 'Emerald Tablet', 'Ruby Tablet', 'Amber Tablet', "Goddess's Harp", 'Ballad of the Goddess', "Farore's Courage", "Nayru's Wisdom", "Din's Power", 'Song of the Hero', 'Song of the Hero Part', 'Extra Wallet', GC, GCP, ...DUNGEONS.flatMap((d) => [d[2], d[3]].filter(Boolean))]);
 const GRID = ['Progressive Beetle', 'Progressive Bow', 'Progressive Slingshot', 'Bomb Bag', 'Clawshots', 'Whip', 'Gust Bellows', 'Progressive Bug Net', 'Sailcloth', 'Progressive Mitts',
-  "Water Dragon's Scale", 'Fireshield Earrings', "Goddess's Harp", 'Ballad of the Goddess', "Cawlin's Letter", 'Rattle', 'Sea Chart', 'Spiral Charge', 'Progressive Pouch', 'Extra Wallet', 'Empty Bottle',
-  'Stone of Trials', 'Life Tree Fruit', 'Group of Tadtones', 'Scrapper', 'Key Piece', 'Gratitude Crystal', 'Gratitude Crystal Pack'].filter((n) => ICONS[n] && !BLOCK.has(n));
-const COUNTED = new Set(['Empty Bottle', 'Key Piece', 'Group of Tadtones', 'Gratitude Crystal', 'Gratitude Crystal Pack', 'Extra Wallet']); // compteur toujours affiché dès 2
+  "Water Dragon's Scale", 'Fireshield Earrings', "Cawlin's Letter", 'Rattle', 'Sea Chart', 'Spiral Charge', 'Progressive Pouch', 'Empty Bottle',
+  'Stone of Trials', 'Life Tree Fruit', 'Group of Tadtones', 'Scrapper'].filter((n) => ICONS[n] && !BLOCK.has(n));
+const COUNTED = new Set(['Empty Bottle', 'Group of Tadtones']); // compteur toujours affiché dès 2
+const WALLET = [300, 500, 1000, 5000, 9000]; // capacité par niveau de portefeuille (identique au moteur de logique) ; chaque bourse supplémentaire ajoute 300
 const FLAMES = [['Din', 50, 10.6, 5], ['Nayru', 15.5, 50.7, 4], ['Farore', 85.5, 50, 3]]; // flamme, x %, y %, niveau d'épée requis
-// [objet, info-bulle, x %, y %, largeur %] — positions en % du plateau ; chaque tablette a sa propre taille/forme
-const TABLETS = [['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)', 30, 27, 40], ['Amber Tablet', "Tablette d'ambre — Lanelle (Lanayru)", 74, 50, 27], ['Emerald Tablet', "Tablette d'émeraude — Firone (Faron)", 30, 72, 30]];
-const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)', 20, 25, 24], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)', 50, 25, 24], ["Din's Power", 'Puissance de Din — Ordinn (Eldin)', 80, 25, 24],
-  ['Song of the Hero', 'Chant du Héros (4 parties)', 50, 71, 78]];
-const SOTH_ICON = [0, 1, 2, 2, 3]; // nombre de parties -> image (SOTH1, SOTH2, SOTH4)
+// [objet, info-bulle, x %, y %, largeur %] — centre de l'image en % du plateau
+// Tablettes : les 3 morceaux (ambre 70×107, rubis 101×52, émeraude 74×66 px) s'emboîtent en un rectangle de 138×107 px, agrandi ×1,5 au centre du cadre
+const TABLETS = [['Amber Tablet', "Tablette d'ambre — Lanelle (Lanayru)", 28.5, 50, 44.3], ['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)', 61.7, 28.7, 63.9], ['Emerald Tablet', "Tablette d'émeraude — Firone (Faron)", 70.2, 65.9, 46.8]];
+// Chants : harpe, ballade et les trois chants sur une rangée ; le Chant du Héros (4 parties) en dessous
+const SONGS = [["Goddess's Harp", 'Harpe de la déesse', 17, 24, 15], ['Ballad of the Goddess', 'Ballade de la déesse', 33.5, 24, 15], ["Farore's Courage", 'Courage de Farore — Firone (Faron)', 50, 24, 15], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)', 66.5, 24, 15],
+  ["Din's Power", 'Puissance de Din — Ordinn (Eldin)', 83, 24, 15], ['Song of the Hero', 'Chant du Héros (4 parties)', 50, 63, 100]];
 // Image à afficher et style
 function look(n, c = countOf(n)) {
   const ic = ICONS[n], last = ic.i.length - 1;
   if (c === 0 && ic.g) return { src: ic.i[last], cls: 'off ghost' }; // g : pas d'image « non obtenu » utilisable -> icône obtenue grisée
-  const k = n === 'Song of the Hero' ? SOTH_ICON[Math.min(c, 4)] : Math.min(c, last);
+  if (n === 'Song of the Hero') return { src: ic.i[last], cls: c >= 4 ? '' : 'off ghost' }; // icône complète toujours au même endroit ; le compteur n/4 indique l'état
+  const k = Math.min(c, last);
   return { src: ic.i[k], cls: c === 0 && ic.d ? 'off' : '' };
 }
-const piece = (n, style, title) => { const lk = look(n); return `<div class="sw ${lk.cls}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${lk.src}" alt="">${n === 'Song of the Hero' && countOf(n) ? `<b>${countOf(n)}/4</b>` : ''}</div>`; };
+const piece = (n, style, title) => { const lk = look(n); return `<div class="sw ${lk.cls}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${lk.src}" alt="">${n === 'Song of the Hero' ? `<b class="cnt">${countOf(n)}/4</b>` : n === 'Extra Wallet' && countOf(n) ? `<b>×${countOf(n)}</b>` : ''}</div>`; };
 const tray = (name, info) => `<div><div class="cname">${name}</div><div class="tray">${info.map(([n, t, x, y, w]) => ICONS[n] ? piece(n, `left:${x}%;top:${y}%;width:${w}%`, `${t}${n === 'Song of the Hero' ? ` (${countOf(n)}/4)` : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1`) : '').join('')}</div></div>`;
 function bump(n) { // monte d'un niveau ; au maximum, remet à 0 (ajouts manuels seulement)
   n = real(n);
@@ -310,32 +332,63 @@ function bump(n) { // monte d'un niveau ; au maximum, remet à 0 (ajouts manuels
   if (ap + m >= maxOf(n)) delete st.mitems[n]; else st.mitems[n] = m + 1;
   save(); render();
 }
+const gcTotal = () => countOf(GC) + 5 * countOf(GCP);
+function bumpGC(n) { // +1 cristal ou +1 pack (= 5) ; au maximum, remet à 0 le compteur manuel du bouton
+  const per = n === GCP ? 5 : 1;
+  if (gcTotal() + per > GC_MAX) delete st.mitems[n]; else st.mitems[n] = (st.mitems[n] || 0) + 1;
+  save(); render();
+}
+function renderBand(ctx) {
+  const tile = (n, tip) => {
+    const c = countOf(n), lk = look(n, c), mx = maxOf(n);
+    return `<div class="tile sm ${lk.cls}" data-it="${esc(n)}" title="${esc(tip)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${lk.src}" alt="">${mx > 1 ? `<b>${c}/${mx}</b>` : ''}</div>`;
+  };
+  $('band').innerHTML = DUNGEONS.map(([ini, name, sk, bk, boss]) => {
+    const loc = boss && D.locations.find((l) => l[0] === boss), dead = loc && ctx.done.has(loc[1]);
+    const tip = sk === 'Key Piece' ? `${name} — clé du donjon (5 morceaux)` : `${name} — petites clés`;
+    return `<div class="dg"><div class="dn ${dead ? 'dead' : ''} ${loc ? '' : 'nb'}" ${loc ? `data-boss="${loc[1]}"` : ''} title="${esc(name)}${loc ? (dead ? ' — boss vaincu (clic : décocher)' : ' — clic : marquer le boss comme vaincu') : ''}">${ini}</div>` +
+      `<div class="dk">${tile(sk, tip)}${bk ? tile(bk, `${name} — clé du boss`) : ''}</div></div>`;
+  }).join('');
+}
+$('band').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-boss]'); if (!b) return;
+  const c = +b.dataset.boss; if (st.apChecked.includes(c)) return; // déjà validé par le serveur
+  const i = st.manual.indexOf(c); i < 0 ? st.manual.push(c) : st.manual.splice(i, 1);
+  save(); render();
+});
 function renderItems() {
   const lvl = countOf('Progressive Sword');
-  const sword = `<div class="swblock">` + FLAMES.map(([f, x, y, min]) => `<div class="sw ${lvl >= min ? '' : 'off'}" style="left:${x}%;top:${y}%;width:24%" title="Flamme de ${f} (apparaît avec l'épée)"><img src="img/swords_${lvl >= min ? '' : 'No_'}${f}s_Flame.png" alt=""></div>`).join('') +
+  const wal = countOf('Progressive Wallet'), ex = countOf('Extra Wallet'), cap = WALLET[Math.min(wal, 4)] + 300 * ex;
+  const sword = `<div class="swcol"><div class="swblock">` + FLAMES.map(([f, x, y, min]) => `<div class="sw ${lvl >= min ? '' : 'off'}" style="left:${x}%;top:${y}%;width:24%" title="Flamme de ${f} (apparaît avec l'épée)"><img src="img/swords_${lvl >= min ? '' : 'No_'}${f}s_Flame.png" alt=""></div>`).join('') +
     piece('Progressive Sword', 'left:50.3%;top:50.7%;width:36%', `Épée (niveau ${lvl}/6) — clic : améliorer, au maximum : retour à 0`) +
-    piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4) — bourses annexes : voir la grille en dessous`) + '</div>';
+    piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4) — bourses annexes : emplacement à gauche`) +
+    piece('Extra Wallet', 'left:21.5%;top:85%;width:26%', `Bourse supplémentaire (${ex}/3, +300 rubis chacune) — clic : +1, au maximum : retour à 0`) + '</div>' +
+    `<div class="wmax" title="Portefeuille ${WALLET[Math.min(wal, 4)]} + ${ex} × 300 : sert à savoir ce qui est achetable chez Beedle">Rubis max : <b>${cap.toLocaleString('fr-FR')}</b></div></div>`;
   const tiles = GRID.map((n) => {
     const c = countOf(n), ic = ICONS[n], lk = look(n, c);
-    const badge = (c > 1 || (n === 'Extra Wallet' && c > 0)) && (COUNTED.has(n) || c > ic.i.length - 1) ? `<b>${c}</b>` : '';
+    const badge = c > 1 && (COUNTED.has(n) || c > ic.i.length - 1) ? `<b>${c}</b>` : '';
     return `<div class="tile ${lk.cls}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${lk.src}" alt="">${badge}</div>`;
   }).join('');
-  $('grid').innerHTML = `<div class="blocks">${sword}<div class="cases">${tray('Tablettes', TABLETS)}${tray('Chants', SONGS)}</div></div><div class="grid">${tiles}</div>`;
+  const gc = gcTotal(), glk = look(GC, gc ? 1 : 0), gcTip = `Cristaux de gratitude : ${gc}/${GC_MAX} (${countOf(GC)} seuls + ${countOf(GCP)} pack(s) de 5)`;
+  const crystals = `<div class="tile gc ${glk.cls}" title="${esc(gcTip)}"><img src="${glk.src}" alt="">${gc ? `<b>${gc}</b>` : ''}<span class="gcb">` +
+    `<button data-gc="${GCP}" title="${esc(gcTip)} — clic : +1 pack (5 cristaux), clic droit : −1 pack">+5 pack</button><button data-gc="${GC}" title="${esc(gcTip)} — clic : +1 cristal, clic droit : −1 cristal">+1</button></span></div>`;
+  $('grid').innerHTML = `<div class="blocks">${sword}<div class="cases">${tray('Tablettes', TABLETS)}${tray('Chants', SONGS)}</div></div><div class="grid">${tiles}${crystals}</div>`;
   const others = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].filter((n) => !GRID.includes(n) && !BLOCK.has(n)).sort();
   $('items').innerHTML = others.map((n) => {
     const a = st.apItems[n] || 0, m = st.mitems[n] || 0, t = a + m, ic = ICONS[n];
     return `<div ${m ? `data-mi="${esc(n)}" style="cursor:pointer" title="Retirer un exemplaire ajouté à la main"` : ''}><span>${ic ? `<img src="${ic.i[Math.min(t, ic.i.length - 1)]}" height="20" style="vertical-align:middle"> ` : ''}${esc(n)}${m ? ' ✎' : ''}</span><b>${t > 1 ? '×' + t : '✓'}</b></div>`;
   }).join('');
 }
-$('grid').addEventListener('click', (e) => { const t = e.target.closest('[data-it]'); if (t) bump(t.dataset.it); });
-$('grid').addEventListener('contextmenu', (e) => {
-  const t = e.target.closest('[data-it]'); if (!t) return; e.preventDefault();
-  const n = real(t.dataset.it); if (st.mitems[n]) { st.mitems[n]--; if (st.mitems[n] <= 0) delete st.mitems[n]; save(); render(); }
-});
+const onItemClick = (e) => { const g = e.target.closest('[data-gc]'); if (g) return bumpGC(g.dataset.gc); const t = e.target.closest('[data-it]'); if (t) bump(t.dataset.it); };
+const onItemCtx = (e) => {
+  const t = e.target.closest('[data-it],[data-gc]'); if (!t) return; e.preventDefault();
+  const n = real(t.dataset.it || t.dataset.gc); if (st.mitems[n]) { st.mitems[n]--; if (st.mitems[n] <= 0) delete st.mitems[n]; save(); render(); }
+};
+for (const el of [$('grid'), $('band')]) { el.addEventListener('click', onItemClick); el.addEventListener('contextmenu', onItemCtx); }
 
 function render() {
   const ctx = { act: activeSet(), done: checkedSet(), man: new Set(st.manual), ap: new Set(st.apChecked), lg: st.lg, lr: st.lg ? logic() : null };
-  renderMap(ctx); renderList(ctx);
+  renderMap(ctx); renderList(ctx); renderBand(ctx);
   const all = stats(() => true, ctx), sel = st.sel;
   $('ltitle').textContent = `Checks — ${all.d}/${all.t}` + (st.lg ? ` · ${all.a} accessibles` : '') + (sel.area ? ` · ${sel.area}` : sel.zone ? ` · ${zoneByKey[sel.zone].fr}` : '');
   $('active').textContent = `${all.t} checks actifs${ctx.act ? ' (serveur)' : ' (réglages)'}`;
@@ -360,11 +413,12 @@ Object.values(D.items).sort().forEach((n) => { const o = document.createElement(
 
 // ---- Filtres, notes, import/export ----
 [...new Set(D.locations.flatMap((l) => l[3]))].filter((t) => t !== 'Custom Flag').sort().forEach((t) => $('type').add(new Option(t, t)));
-$('q').value = st.q; $('type').value = st.ty; $('hide').checked = st.hide; $('lg').checked = st.lg; $('notes').value = st.notes; $('srv').value = st.srv; $('slot').value = st.slot;
+$('q').value = st.q; $('type').value = st.ty; $('hide').checked = st.hide; $('lg').checked = st.lg; $('spawn').value = st.opts.spawn_zone; $('notes').value = st.notes; $('srv').value = st.srv; $('slot').value = st.slot;
 $('q').oninput = () => { st.q = $('q').value; save(); render(); };
 $('type').onchange = () => { st.ty = $('type').value; save(); render(); };
 $('hide').onchange = () => { st.hide = $('hide').checked; save(); render(); };
 $('lg').onchange = () => { st.lg = $('lg').checked; save(); render(); };
+$('spawn').onchange = () => { st.opts.spawn_zone = $('spawn').value; save(); render(); };
 $('notes').oninput = () => { st.notes = $('notes').value; save(); };
 $('exp').onclick = () => { const a = document.createElement('a'); a.href = URL.createObjectURL(new Blob([JSON.stringify(st, null, 1)], { type: 'application/json' })); a.download = 'sshd-tracker.json'; a.click(); };
 $('imp').onclick = () => $('file').click();

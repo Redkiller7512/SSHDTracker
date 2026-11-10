@@ -3,11 +3,12 @@
 (function (root) {
   const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
   // names : { nomNormalisé: "Nom affiché" }, sert à afficher les objets requis
-  function compute(L, inv, over, names) {
+  // starts : zones déjà accessibles dès le départ en plus de Célesbourg (ex. « Faron Pillar » si on apparaît à Firone : la tablette n'est alors plus requise)
+  function compute(L, inv, over, names, starts) {
     const S = {};
     for (const k in L.settings) S[k] = over && k in over ? over[k] : L.settings[k].d;
     const idx = (n, v) => { const o = L.settings[n].o; return o.length ? o.indexOf(String(v)) : Number(v); };
-    const reach = new Set(['Root']), ev = new Set();
+    const reach = new Set(['Root', ...(starts || [])]), ev = new Set();
     let mc = new Map();
     const have = (i) => inv[i] || 0;
     function E(r) {
