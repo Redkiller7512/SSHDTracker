@@ -90,7 +90,7 @@ def atom(a):
     if a == "Day": return ["D"]
     if a == "Night": return ["T"]
     if a.replace("_", " ") in macros: return ["m", a.replace("_", " ")]
-    if a.startswith("'"): return ["e", a.strip("'")]
+    if a.startswith("'"): return ["e", norm(a.strip("'"))]  # noms d'événements normalisés : les règles écrivent Save_Orielle, les zones « Save Orielle »
     m = re.fullmatch(r"count\(\s*(\d+)\s*,\s*([^)]+?)\s*\)", a)
     if m: return ["i", norm(m[2])] if m[1] == "1" else ["c", int(m[1]), norm(m[2])]
     m = re.fullmatch(r"can_access\((.+)\)", a)
@@ -134,7 +134,7 @@ for f in z.namelist():
         for a in yaml.safe_load(z.read(f)) or []:
             d = areas.setdefault(a["name"], {"x": {}, "l": {}, "e": {}})
             for k, key in (("exits", "x"), ("locations", "l"), ("events", "e")):
-                for n, r in (a.get(k) or {}).items(): d[key][n] = P(r)
+                for n, r in (a.get(k) or {}).items(): d[key][norm(n) if key == "e" else n] = P(r)
 mac = {k: P(v) for k, v in macros.items()}
 ER = [n for n in settings if re.match(r"(randomize_(dungeon|trial|door|interior|overworld|entrance|gate)|decouple|random_starting_spawn)", n)]
 open("logic.js", "w", encoding="utf-8").write("window.SSHD_LOGIC=" + json.dumps({"areas": areas, "macros": mac, "settings": settings, "er": ER}, separators=(",", ":")) + ";")
