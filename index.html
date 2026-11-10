@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>SSHD Archipelago Tracker</title>
 <style>
-:root{--bg:#14171c;--card:#1d222a;--line:#2b323d;--fg:#e6e9ee;--mut:#8b95a5;--ok:#4ade80;--acc:#60a5fa;--bad:#f87171;--warn:#fbbf24}
+:root{--bg:#14171c;--card:#1d222a;--line:#2b323d;--fg:#e6e9ee;--mut:#8b95a5;--ok:#4ade80;--acc:#60a5fa;--bad:#f87171;--warn:#fbbf24;--org:#fb923c}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--fg);font:14px/1.4 system-ui,sans-serif}
 header{position:sticky;top:0;z-index:20;background:var(--card);border-bottom:1px solid var(--line);padding:10px 14px;display:flex;flex-wrap:wrap;gap:8px;align-items:center}
@@ -22,12 +22,18 @@ h2{margin:0 0 8px;font-size:15px}
 .mk{position:absolute;transform:translate(-50%,-50%);min-width:26px;height:26px;border-radius:50%;border:2px solid #fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;cursor:pointer;color:#07121f;box-shadow:0 0 0 2px #000a;padding:0 4px;white-space:nowrap}
 .mk.dn{border-radius:4px}.mk.tg{border-radius:50% 50% 0 50%}.mk.big{min-width:auto;height:30px;padding:0 10px;border-radius:15px;font-size:13px}
 .mk.sel{outline:3px solid var(--acc);outline-offset:2px}
-.mk.acc{background:var(--bad)}.mk.lock{background:#7f1d1d;color:#fff}.mk.done{background:var(--ok)}.mk.none{background:#6b7280}
+.mk.acc{background:var(--org)}.mk.lock{background:#dc2626;color:#fff}.mk.done{background:var(--ok)}.mk.none{background:#6b7280}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile b{position:absolute;right:2px;bottom:0;font-size:12px;background:#000b;border-radius:4px;padding:0 3px}
+.blocks{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;align-items:flex-start}
+.swblock{position:relative;width:190px;aspect-ratio:294/424;background:url(img/Sword_Block.png) center/100% 100% no-repeat}
+.cases{display:flex;flex-direction:column;gap:8px}.cname{font-size:12px;color:var(--mut);margin-bottom:2px}
+.tray{position:relative;width:176px;aspect-ratio:237/194;background:url(img/tablets_slot.png) center/100% 100% no-repeat}
+.sw{position:absolute;transform:translate(-50%,-50%);cursor:pointer}.sw img{display:block;width:100%}
 .crumbs{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:8px}
 #items div{display:flex;justify-content:space-between;padding:2px 0;border-bottom:1px dashed var(--line)}#items b{color:var(--acc)}
 details.g{border:1px solid var(--line);border-radius:6px;margin-bottom:6px;background:var(--bg)}
 summary{cursor:pointer;padding:6px 10px;display:flex;justify-content:space-between}summary.done{color:var(--ok)}
-.loc{padding:3px 10px 3px 22px;display:flex;gap:8px;align-items:baseline;cursor:pointer;border-left:4px solid transparent}.loc:hover{background:#ffffff0d}.loc.c{color:var(--ok);border-left-color:var(--ok)}.loc.acc{color:var(--bad);border-left-color:var(--bad);font-weight:600}.loc.lock{color:#b45454;border-left-color:#7f1d1d}
+.loc{padding:3px 10px 3px 22px;display:flex;gap:8px;align-items:baseline;cursor:pointer;border-left:4px solid transparent}.loc:hover{background:#ffffff0d}.loc.c{color:var(--ok);border-left-color:var(--ok)}.loc.acc{color:var(--org);border-left-color:var(--org);font-weight:600}.loc.lock{color:var(--bad);border-left-color:#b91c1c}.loc input{margin:0;pointer-events:none}.man{color:var(--warn)}
 .loc i{margin-left:auto;font-style:normal;font-size:11px;color:var(--mut)}
 .bar{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:10px;align-items:center}
 #opts{display:grid;grid-template-columns:repeat(auto-fill,minmax(210px,1fr));gap:6px;margin:8px 0}#opts label{display:flex;justify-content:space-between;gap:6px;align-items:center}
@@ -50,21 +56,21 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
     </section>
     <section class="panel"><h2>Objets <span id="icount"></span></h2>
       <div class="bar"><input id="mi" list="itemlist" placeholder="Ajouter un objet à la main…" size="26"><datalist id="itemlist"></datalist><button id="madd">+</button></div>
-      <div id="items"></div><p class="mut">Un clic sur un objet ajouté à la main (✎) en retire un exemplaire.</p></section>
+      <div id="grid"></div><div id="items"></div><p class="mut">Clic sur une icône : monte d'un niveau ; une fois au maximum, un clic remet à 0 · clic droit : −1. Seuls les ajouts manuels sont modifiables (pas les objets reçus du serveur).</p></section>
     <section class="panel"><h2>Notes</h2><textarea id="notes" placeholder="Tes notes…"></textarea>
       <div class="bar" style="margin-top:6px"><button class="sec" id="exp">Exporter l'état</button><button class="sec" id="imp">Importer</button><button class="sec" id="rst">Réinitialiser</button><input type="file" id="file" accept=".json" hidden></div>
       <p class="mut">Tout est sauvegardé automatiquement dans ce navigateur (localStorage).</p></section>
     <section class="panel">
       <details id="setbox"><summary>Réglages de la seed — <span id="active"></span></summary>
-        <p class="mut">Colle ici ta setting string ou le YAML du générateur (lignes <code>option: valeur</code>, ou <code>option:valeur|option:valeur</code>). Une fois connecté au serveur, la liste exacte des checks de ton slot est utilisée automatiquement.</p>
-        <textarea id="sstr" placeholder="npc_closet_shuffle: true&#10;rupee_shuffle: beginner&#10;…"></textarea>
+        <p class="mut">Colle ici ta setting string du patcher (commence par <code>U1NIRFI…</code>) ou le YAML du générateur (lignes <code>option: valeur</code>, ou <code>option:valeur|option:valeur</code>). Une fois connecté au serveur, la liste exacte des checks de ton slot est utilisée automatiquement.</p>
+        <textarea id="sstr" placeholder="Setting string (U1NIRFI…) ou lignes option: valeur"></textarea>
         <div class="bar" style="margin-top:6px"><button id="apply">Appliquer</button><span id="parsed" class="mut"></span></div>
         <div id="opts"></div>
       </details>
     </section>
   </div>
   <section class="panel">
-    <div id="warn"></div><h2 id="ltitle">Checks</h2><p class="legend"><span style="color:var(--ok)">■ fait</span> · <span style="color:var(--bad)">■ à faire, accessible</span> · <span style="color:#b45454">■ à faire, pas encore accessible</span> — clic = cocher/décocher à la main</p>
+    <div id="warn"></div><h2 id="ltitle">Checks</h2><p class="legend"><span style="color:var(--ok)">■ fait</span> · <span style="color:var(--org)">■ accessible</span> · <span style="color:var(--bad)">■ pas encore accessible</span> — clic sur un check = le cocher/décocher à la main (par exemple un coffre dont un indice révèle un piège)</p>
     <div class="bar">
       <input id="q" placeholder="Rechercher…" size="20">
       <select id="type"><option value="">Tous les types</option></select>
@@ -75,6 +81,7 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
 </main>
 <script src="data.js"></script>
 <script src="logic.js"></script>
+<script src="icons.js"></script>
 <script src="engine.js"></script>
 <script>
 const D = window.SSHD_DATA, L = window.SSHD_LOGIC, $ = (id) => document.getElementById(id);
@@ -113,6 +120,7 @@ function isActive(l, act) {
   return true;
 }
 function inventory() {
+  for (const n of Object.keys(st.mitems)) { if (window.SSHD_ICONS && window.SSHD_ICONS[n]) { const mx = (({ 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4 })[n]) || Math.max(1, window.SSHD_ICONS[n].i.length - 1); st.mitems[n] = Math.max(0, Math.min(st.mitems[n], mx - (st.apItems[n] || 0))); if (!st.mitems[n]) delete st.mitems[n]; } }
   const inv = {}, all = { ...st.apItems };
   for (const [n, c] of Object.entries(st.mitems)) all[n] = (all[n] || 0) + c;
   for (const [n, c] of Object.entries(all)) inv[norm(n)] = (inv[norm(n)] || 0) + c;
@@ -145,6 +153,27 @@ function parseSettings(text) {
   }
   return { raw, opts, over };
 }
+
+// ---- Setting string du patcher (SSHDR-…) : on ne décode que les 14 premiers réglages (logique de base + shuffles) ----
+function decodeSettingString(str) {
+  str = str.trim();
+  if (!str.startsWith('U1NIRFI')) return null; // base64 de « SSHDR »
+  str = str.replace(/[^A-Za-z0-9+/]/g, ''); while (str.length % 4) str += '=';
+  let bin; try { bin = atob(str); } catch (e) { return null; }
+  const b = Uint8Array.from(bin, (c) => c.charCodeAt(0));
+  let zeros = 0, p = 0; while (zeros < 3 && p < b.length) if (b[p++] === 0) zeros++;
+  const bit = (i) => (b[p + (i >> 3)] >> (i & 7)) & 1, bl = (n) => 32 - Math.clz32(n);
+  let pos = 16; const raw = {}, random = [];
+  for (const k of ['logic_rules', 'item_pool', 'enable_back_in_time', 'gratitude_crystal_shuffle', 'stamina_fruit_shuffle', 'npc_closet_shuffle', 'hidden_item_shuffle', 'rupee_shuffle',
+    'underground_rupee_shuffle', 'beedle_shop_shuffle', 'goddess_chest_shuffle', 'trial_treasure_shuffle', 'tadtone_shuffle', 'gossip_stone_treasure_shuffle']) {
+    const s = L.settings[k], n = k === 'trial_treasure_shuffle' ? 11 : s.o.length, w = bl(n); let v = 0;
+    for (let i = 0; i < w; i++) v |= bit(pos + i) << i;
+    pos += w;
+    if (v >= n) { random.push(k); continue; }
+    raw[k] = k === 'trial_treasure_shuffle' ? String(v) : s.o[v];
+  }
+  return { raw, random, name: bin.split('\0')[2] || '' };
+}
 function renderOpts() {
   const lab = (k) => k.replace(/_/g, ' '), o = st.opts;
   $('opts').innerHTML = Object.keys(TOGGLES).map((k) => `<label>${lab(k)}<input type="checkbox" data-k="${k}" ${o[k] ? 'checked' : ''}></label>`).join('') +
@@ -156,6 +185,14 @@ $('opts').addEventListener('change', (e) => {
   st.opts[k] = e.target.type === 'checkbox' ? e.target.checked : e.target.value; st.active = null; save(); render();
 });
 $('apply').onclick = () => {
+  const ss = decodeSettingString($('sstr').value);
+  if (ss) {
+    const text = Object.entries(ss.raw).map(([k, v]) => `${k}: ${v}`).join('\n');
+    const p = parseSettings(text);
+    st.opts = p.opts; st.over = { ...st.over, ...p.over }; st.active = null; save();
+    $('parsed').textContent = `Setting string « ${ss.name} » : ${Object.keys(ss.raw).length} réglages lus` + (ss.random.length ? ` (aléatoires, ignorés : ${ss.random.join(', ')})` : '') + ' — seuls les 14 premiers (shuffles) sont décodés.';
+    renderOpts(); render(); return;
+  }
   const p = parseSettings($('sstr').value);
   st.opts = p.opts; st.over = { ...st.over, ...p.over }; st.active = null; save();
   $('parsed').textContent = Object.keys(p.raw).length ? `${Object.keys(p.raw).length} réglage(s) reconnu(s)` : 'Aucun réglage reconnu';
@@ -215,7 +252,8 @@ function renderList(ctx) {
     h += `<details class="g" open><summary class="${d === ls.length ? 'done' : ''}"><span>${esc(g)}</span><span>${d}/${ls.length}</span></summary>` +
       shown.map((l) => {
         const done = ctx.done.has(l[1]), acc = !ctx.lg || ctx.lr.locs.has(l[0]);
-        return `<div class="loc ${done ? 'c' : acc ? 'acc' : 'lock'}" data-code="${l[1]}"><span>${done ? '✔ ' : ''}${esc(l[0])}</span><i>${esc(l[3].filter((t) => t !== 'Custom Flag').join(', '))}</i></div>`;
+        const man = ctx.man.has(l[1]), ap = ctx.ap.has(l[1]);
+        return `<div class="loc ${done ? 'c' : acc ? 'acc' : 'lock'}" data-code="${l[1]}" title="${ap ? 'Validé par le serveur' : 'Clic : cocher/décocher à la main'}"><input type="checkbox" ${done ? 'checked' : ''} ${ap ? 'disabled' : ''} tabindex="-1"><span>${esc(l[0])}</span><i>${man ? '<span class="man">✎ coché à la main</span> · ' : ''}${esc(l[3].filter((t) => t !== 'Custom Flag').join(', '))}</i></div>`;
       }).join('') + '</details>';
   }
   $('locs').innerHTML = h || '<p class="mut">Aucun check à afficher.</p>';
@@ -228,14 +266,57 @@ $('locs').addEventListener('click', (e) => {
   save(); render();
 });
 
+
+const ICONS = window.SSHD_ICONS || {};
+const MAXC = { 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4 };
+const maxOf = (n) => MAXC[n] || Math.max(1, ICONS[n].i.length - 1);
+const countOf = (n) => (st.apItems[n] || 0) + (st.mitems[n] || 0);
+const BLOCK = new Set(['Progressive Sword', 'Progressive Wallet', 'Emerald Tablet', 'Ruby Tablet', 'Amber Tablet', "Farore's Courage", "Nayru's Wisdom", "Din's Power"]);
+const GRID = ['Progressive Beetle', 'Progressive Bow', 'Progressive Slingshot', 'Bomb Bag', 'Clawshots', 'Whip', 'Gust Bellows', 'Progressive Bug Net', 'Sailcloth', 'Progressive Mitts',
+  "Water Dragon's Scale", 'Fireshield Earrings', "Goddess's Harp", 'Ballad of the Goddess', "Cawlin's Letter", 'Rattle', 'Sea Chart', 'Spiral Charge', 'Progressive Pouch', 'Empty Bottle',
+  'Stone of Trials', 'Life Tree Fruit', 'Group of Tadtones', 'Scrapper', 'Key Piece', 'Gratitude Crystal'].filter((n) => ICONS[n] && !BLOCK.has(n));
+const FLAMES = [['Din', 50, 10.6, 5], ['Nayru', 15.5, 50.7, 4], ['Farore', 85.5, 50, 3]]; // flamme, x %, y %, niveau d'épée requis
+const TABLETS = [['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)'], ['Amber Tablet', "Tablette d'ambre — Lanelle (Lanayru)"], ['Emerald Tablet', "Tablette d'émeraude — Firone (Faron)"]];
+const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)'], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)'], ["Din's Power", 'Puissance de Din — Ordinn (Eldin)']];
+const icon = (n, c = countOf(n)) => ICONS[n].i[Math.min(c, ICONS[n].i.length - 1)];
+const piece = (n, style, title) => `<div class="sw ${countOf(n) === 0 && ICONS[n].d ? 'off' : ''}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${icon(n)}" alt=""></div>`;
+const tray = (name, info) => `<div><div class="cname">${name}</div><div class="tray">${info.map(([n, t], i) => ICONS[n] ? piece(n, `left:${[22, 50, 78][i]}%;top:50%;width:27%`, t + (countOf(n) ? ' — clic : retirer' : ' — clic : obtenu')) : '').join('')}</div></div>`;
+function bump(n) { // monte d'un niveau ; au maximum, remet à 0 (ajouts manuels seulement)
+  const ap = st.apItems[n] || 0, m = st.mitems[n] || 0;
+  if (ap + m >= maxOf(n)) delete st.mitems[n]; else st.mitems[n] = m + 1;
+  save(); render();
+}
+function renderItems() {
+  const lvl = countOf('Progressive Sword');
+  const sword = `<div class="swblock">` + FLAMES.map(([f, x, y, min]) => `<div class="sw ${lvl >= min ? '' : 'off'}" style="left:${x}%;top:${y}%;width:24%" title="Flamme de ${f} (apparaît avec l'épée)"><img src="img/swords_${lvl >= min ? '' : 'No_'}${f}s_Flame.png" alt=""></div>`).join('') +
+    piece('Progressive Sword', 'left:50.3%;top:50.7%;width:36%', `Épée (niveau ${lvl}/6) — clic : améliorer, au maximum : retour à 0`) +
+    piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4)`) + '</div>';
+  const tiles = GRID.map((n) => {
+    const c = countOf(n), ic = ICONS[n];
+    const badge = c > 1 && (ic.i.length <= 2 || ['Empty Bottle', 'Key Piece', 'Group of Tadtones'].includes(n)) ? `<b>${c}</b>` : '';
+    return `<div class="tile ${c === 0 && ic.d ? 'off' : ''}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${icon(n)}" alt="">${badge}</div>`;
+  }).join('');
+  $('grid').innerHTML = `<div class="blocks">${sword}<div class="cases">${tray('Tablettes', TABLETS)}${tray('Chants des dragons', SONGS)}</div></div><div class="grid">${tiles}</div>`;
+  const others = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].filter((n) => !GRID.includes(n) && !BLOCK.has(n)).sort();
+  $('items').innerHTML = others.map((n) => {
+    const a = st.apItems[n] || 0, m = st.mitems[n] || 0, t = a + m, ic = ICONS[n];
+    return `<div ${m ? `data-mi="${esc(n)}" style="cursor:pointer" title="Retirer un exemplaire ajouté à la main"` : ''}><span>${ic ? `<img src="${ic.i[Math.min(t, ic.i.length - 1)]}" height="20" style="vertical-align:middle"> ` : ''}${esc(n)}${m ? ' ✎' : ''}</span><b>${t > 1 ? '×' + t : '✓'}</b></div>`;
+  }).join('');
+}
+$('grid').addEventListener('click', (e) => { const t = e.target.closest('[data-it]'); if (t) bump(t.dataset.it); });
+$('grid').addEventListener('contextmenu', (e) => {
+  const t = e.target.closest('[data-it]'); if (!t) return; e.preventDefault();
+  const n = t.dataset.it; if (st.mitems[n]) { st.mitems[n]--; if (st.mitems[n] <= 0) delete st.mitems[n]; save(); render(); }
+});
+
 function render() {
-  const ctx = { act: activeSet(), done: checkedSet(), lg: st.lg, lr: st.lg ? logic() : null };
+  const ctx = { act: activeSet(), done: checkedSet(), man: new Set(st.manual), ap: new Set(st.apChecked), lg: st.lg, lr: st.lg ? logic() : null };
   renderMap(ctx); renderList(ctx);
   const all = stats(() => true, ctx), sel = st.sel;
   $('ltitle').textContent = `Checks — ${all.d}/${all.t}` + (st.lg ? ` · ${all.a} accessibles` : '') + (sel.area ? ` · ${sel.area}` : sel.zone ? ` · ${zoneByKey[sel.zone].fr}` : '');
   $('active').textContent = `${all.t} checks actifs${ctx.act ? ' (serveur)' : ' (réglages)'}`;
   const names = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].sort();
-  $('items').innerHTML = names.map((n) => { const a = st.apItems[n] || 0, m = st.mitems[n] || 0, t = a + m; return `<div ${m ? `data-mi="${esc(n)}" style="cursor:pointer" title="Retirer un exemplaire ajouté à la main"` : ''}><span>${esc(n)}${m ? ' ✎' : ''}</span><b>${t > 1 ? '×' + t : '✓'}</b></div>`; }).join('');
+  renderItems();
   $('icount').textContent = `(${names.reduce((s, n) => s + (st.apItems[n] || 0) + (st.mitems[n] || 0), 0)})`;
   const eff = { ...Object.fromEntries(Object.entries(L.settings).map(([k, v]) => [k, v.d])), ...st.over };
   const er = L.er.filter((k) => !['off', 'vanilla', false].includes(eff[k]));
