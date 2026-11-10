@@ -23,7 +23,12 @@ h2{margin:0 0 8px;font-size:15px}
 .mk.dn{border-radius:4px}.mk.tg{border-radius:50% 50% 0 50%}.mk.big{min-width:auto;height:30px;padding:0 10px;border-radius:15px;font-size:13px}
 .mk.sel{outline:3px solid var(--acc);outline-offset:2px}
 .mk.acc{background:var(--org)}.mk.lock{background:#dc2626;color:#fff}.mk.done{background:var(--ok)}.mk.none{background:#6b7280}
+<<<<<<< HEAD
+.grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile.ghost img,.sw.ghost img{opacity:.5;filter:grayscale(1) brightness(.8)}
+.sw b{position:absolute;right:-4px;bottom:-4px;font-size:11px;background:#000c;border-radius:4px;padding:0 3px}.tray .sw{aspect-ratio:1}.tray .sw img{height:100%;object-fit:contain}.tile b{position:absolute;right:2px;bottom:0;font-size:12px;background:#000b;border-radius:4px;padding:0 3px}
+=======
 .grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile b{position:absolute;right:2px;bottom:0;font-size:12px;background:#000b;border-radius:4px;padding:0 3px}
+>>>>>>> 475b6dbe9f54ec9ad1f11ad55e3ff94dd32b6d1c
 .blocks{display:flex;flex-wrap:wrap;gap:12px;margin-bottom:10px;align-items:flex-start}
 .swblock{position:relative;width:190px;aspect-ratio:294/424;background:url(img/Sword_Block.png) center/100% 100% no-repeat}
 .cases{display:flex;flex-direction:column;gap:8px}.cname{font-size:12px;color:var(--mut);margin-bottom:2px}
@@ -120,7 +125,11 @@ function isActive(l, act) {
   return true;
 }
 function inventory() {
+<<<<<<< HEAD
+  for (const n of Object.keys(st.mitems)) { if (ICONS[n]) { st.mitems[n] = Math.max(0, Math.min(st.mitems[n], maxOf(n) - (st.apItems[n] || 0))); if (!st.mitems[n]) delete st.mitems[n]; } }
+=======
   for (const n of Object.keys(st.mitems)) { if (window.SSHD_ICONS && window.SSHD_ICONS[n]) { const mx = (({ 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4 })[n]) || Math.max(1, window.SSHD_ICONS[n].i.length - 1); st.mitems[n] = Math.max(0, Math.min(st.mitems[n], mx - (st.apItems[n] || 0))); if (!st.mitems[n]) delete st.mitems[n]; } }
+>>>>>>> 475b6dbe9f54ec9ad1f11ad55e3ff94dd32b6d1c
   const inv = {}, all = { ...st.apItems };
   for (const [n, c] of Object.entries(st.mitems)) all[n] = (all[n] || 0) + c;
   for (const [n, c] of Object.entries(all)) inv[norm(n)] = (inv[norm(n)] || 0) + c;
@@ -240,7 +249,11 @@ function renderList(ctx) {
   const groups = new Map();
   for (const l of D.locations) {
     if (!isActive(l, ctx.act) || !inSel(l) || (ty && !l[3].includes(ty))) continue;
+<<<<<<< HEAD
+    const g = sel.area ? l[2] : sel.zone ? (zoneByKey[sel.zone].img ? areaOf(l) : l[2]) : (zoneByKey[zoneOf(l)] || {}).fr;
+=======
     const g = sel.area ? l[2] : sel.zone ? areaOf(l) : (zoneByKey[zoneOf(l)] || {}).fr;
+>>>>>>> 475b6dbe9f54ec9ad1f11ad55e3ff94dd32b6d1c
     if (!groups.has(g)) groups.set(g, []);
     groups.get(g).push(l);
   }
@@ -268,6 +281,23 @@ $('locs').addEventListener('click', (e) => {
 
 
 const ICONS = window.SSHD_ICONS || {};
+<<<<<<< HEAD
+const MAXC = { 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4, 'Progressive Pouch': 5, 'Extra Wallet': 3, 'Song of the Hero Part': 4 };
+const maxOf = (n) => MAXC[n] || Math.max(1, ICONS[n].i.length - 1);
+const countOf = (n) => (st.apItems[n] || 0) + (st.mitems[n] || 0);
+const BLOCK = new Set(['Song of the Hero Part', 'Progressive Sword', 'Progressive Wallet', 'Emerald Tablet', 'Ruby Tablet', 'Amber Tablet', "Farore's Courage", "Nayru's Wisdom", "Din's Power"]);
+const GRID = ['Progressive Beetle', 'Progressive Bow', 'Progressive Slingshot', 'Bomb Bag', 'Clawshots', 'Whip', 'Gust Bellows', 'Progressive Bug Net', 'Sailcloth', 'Progressive Mitts',
+  "Water Dragon's Scale", 'Fireshield Earrings', "Goddess's Harp", 'Ballad of the Goddess', "Cawlin's Letter", 'Rattle', 'Sea Chart', 'Spiral Charge', 'Progressive Pouch', 'Extra Wallet', 'Empty Bottle',
+  'Stone of Trials', 'Life Tree Fruit', 'Group of Tadtones', 'Scrapper', 'Key Piece', 'Gratitude Crystal'].filter((n) => ICONS[n] && !BLOCK.has(n));
+const FLAMES = [['Din', 50, 10.6, 5], ['Nayru', 15.5, 50.7, 4], ['Farore', 85.5, 50, 3]]; // flamme, x %, y %, niveau d'épée requis
+const TABLETS = [['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)', 20, 50, 28], ['Amber Tablet', "Tablette d'ambre — Lanelle (Lanayru)", 50, 50, 28], ['Emerald Tablet', "Tablette d'émeraude — Firone (Faron)", 80, 50, 28]];
+const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)', 20, 31, 24], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)', 50, 31, 24], ["Din's Power", 'Puissance de Din — Ordinn (Eldin)', 80, 31, 24],
+  ['Song of the Hero Part', 'Chant du héros (4 parties)', 50, 70, 24]];
+const icon = (n, c = countOf(n)) => { const L = ICONS[n].i; return L[c === 0 && ICONS[n].g ? L.length - 1 : Math.min(c, L.length - 1)]; };
+const offCls = (n, c = countOf(n)) => (c === 0 ? (ICONS[n].g ? 'off ghost' : ICONS[n].d ? 'off' : '') : '');
+const piece = (n, style, title) => `<div class="sw ${offCls(n)}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${icon(n)}" alt="">${n === 'Song of the Hero Part' && countOf(n) ? `<b>${countOf(n)}/4</b>` : ''}</div>`;
+const tray = (name, info) => `<div><div class="cname">${name}</div><div class="tray">${info.map(([n, t, x, y, w]) => ICONS[n] ? piece(n, `left:${x}%;top:${y}%;width:${w}%`, t + ' — clic : obtenu / retiré') : '').join('')}</div></div>`;
+=======
 const MAXC = { 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4 };
 const maxOf = (n) => MAXC[n] || Math.max(1, ICONS[n].i.length - 1);
 const countOf = (n) => (st.apItems[n] || 0) + (st.mitems[n] || 0);
@@ -281,6 +311,7 @@ const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)'], ["N
 const icon = (n, c = countOf(n)) => ICONS[n].i[Math.min(c, ICONS[n].i.length - 1)];
 const piece = (n, style, title) => `<div class="sw ${countOf(n) === 0 && ICONS[n].d ? 'off' : ''}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${icon(n)}" alt=""></div>`;
 const tray = (name, info) => `<div><div class="cname">${name}</div><div class="tray">${info.map(([n, t], i) => ICONS[n] ? piece(n, `left:${[22, 50, 78][i]}%;top:50%;width:27%`, t + (countOf(n) ? ' — clic : retirer' : ' — clic : obtenu')) : '').join('')}</div></div>`;
+>>>>>>> 475b6dbe9f54ec9ad1f11ad55e3ff94dd32b6d1c
 function bump(n) { // monte d'un niveau ; au maximum, remet à 0 (ajouts manuels seulement)
   const ap = st.apItems[n] || 0, m = st.mitems[n] || 0;
   if (ap + m >= maxOf(n)) delete st.mitems[n]; else st.mitems[n] = m + 1;
@@ -290,11 +321,19 @@ function renderItems() {
   const lvl = countOf('Progressive Sword');
   const sword = `<div class="swblock">` + FLAMES.map(([f, x, y, min]) => `<div class="sw ${lvl >= min ? '' : 'off'}" style="left:${x}%;top:${y}%;width:24%" title="Flamme de ${f} (apparaît avec l'épée)"><img src="img/swords_${lvl >= min ? '' : 'No_'}${f}s_Flame.png" alt=""></div>`).join('') +
     piece('Progressive Sword', 'left:50.3%;top:50.7%;width:36%', `Épée (niveau ${lvl}/6) — clic : améliorer, au maximum : retour à 0`) +
+<<<<<<< HEAD
+    piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4) — bourses annexes : voir la grille en dessous`) + '</div>';
+  const tiles = GRID.map((n) => {
+    const c = countOf(n), ic = ICONS[n];
+    const badge = (c > 1 || (n === 'Extra Wallet' && c > 0)) && (ic.i.length <= 2 || ['Empty Bottle', 'Key Piece', 'Group of Tadtones', 'Extra Wallet'].includes(n)) ? `<b>${c}</b>` : '';
+    return `<div class="tile ${offCls(n, c)}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${icon(n)}" alt="">${badge}</div>`;
+=======
     piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4)`) + '</div>';
   const tiles = GRID.map((n) => {
     const c = countOf(n), ic = ICONS[n];
     const badge = c > 1 && (ic.i.length <= 2 || ['Empty Bottle', 'Key Piece', 'Group of Tadtones'].includes(n)) ? `<b>${c}</b>` : '';
     return `<div class="tile ${c === 0 && ic.d ? 'off' : ''}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${icon(n)}" alt="">${badge}</div>`;
+>>>>>>> 475b6dbe9f54ec9ad1f11ad55e3ff94dd32b6d1c
   }).join('');
   $('grid').innerHTML = `<div class="blocks">${sword}<div class="cases">${tray('Tablettes', TABLETS)}${tray('Chants des dragons', SONGS)}</div></div><div class="grid">${tiles}</div>`;
   const others = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].filter((n) => !GRID.includes(n) && !BLOCK.has(n)).sort();
