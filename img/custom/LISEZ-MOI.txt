@@ -1,0 +1,22 @@
+Dépose ici tes images (PNG à fond transparent, de préférence 128x128 pixels, carrées) avec EXACTEMENT ces noms.
+Un fichier absent = le dessin de secours reste affiché. Recharge la page (Ctrl+F5) après un ajout.
+
+CŒURS (emplacement du cœur, un fichier par état)
+  heart_0.png   cœur vide (aucun quart, facultatif)
+  heart_1.png   un quart        heart_2.png   la moitié
+  heart_3.png   trois quarts    heart_4.png   cœur entier (sert aussi d'icône dans le petit tableau des cœurs)
+
+MÉDAILLES
+  medal_bug.png  medal_cursed.png  medal_heart.png  medal_life.png  medal_potion.png  medal_rupee.png  medal_treasure.png
+
+RUBIS
+  rupee_green.png  rupee_blue.png  rupee_red.png  rupee_silver.png  rupee_gold.png
+  rupee_greg.png   (facultatif : Greg le rubis vert)
+
+PIÈGES
+  rupoor.png        le Rupoor (sert pour sa carte ET se superpose devant chaque piège)
+  trap_burn.png     feu (piège de brûlure)
+  trap_curse.png    malédiction
+  trap_noise.png    boutons de menu + symbole du son
+  trap_groose.png   Groose
+  trap_health.png   santé à 1 (si l'option est activée)

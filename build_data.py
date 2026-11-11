@@ -22,7 +22,7 @@ EXTRA = {
  "Shipyard": "Lanayru Sand Sea", "Construction Bay": "Lanayru Sand Sea", "Pirate Stronghold": "Lanayru Sand Sea", "Pirate Stronghold Interior": "Lanayru Sand Sea",
 }
 SKY_ISLANDS = ["Bamboo Island Interior", "Bamboo Island", "Lumpy Pumpkin", "Orielle's Island", "Beedle's Island", "Fun Fun Island", "Island near Bamboo Island",
-               "Northeast Island", "Island Closest to Faron Pillar", "Volcanic Island", "Triple Island", "Bug Heaven", "Isle of Songs"]
+               "Northeast Island", "Island Closest to Faron Pillar", "Volcanic Island", "Triple Island", "Bug Heaven"]
 
 os.makedirs("maps", exist_ok=True)
 def png(name):
@@ -48,6 +48,7 @@ for r, a in EXTRA.items():
     region_area[r] = a
 for r in SKY_ISLANDS + ["The Sky"]:
     region_area[r] = "Sky"; zone_of["Sky"] = "Sky"
+region_area["Isle of Songs"] = "Inside the Thunderhead"
 region_area["Inside the Thunderhead"] = "Inside the Thunderhead"; zone_of["Inside the Thunderhead"] = "Inside the Thunderhead"
 for r in {l.region for l in loc.values()}:
     if r not in region_area:
@@ -90,7 +91,7 @@ def atom(a):
     if a == "Day": return ["D"]
     if a == "Night": return ["T"]
     if a.replace("_", " ") in macros: return ["m", a.replace("_", " ")]
-    if a.startswith("'"): return ["e", norm(a.strip("'"))]  # noms d'événements normalisés : les règles écrivent Save_Orielle, les zones « Save Orielle »
+    if a.startswith("'"): return ["e", a.strip("'")]
     m = re.fullmatch(r"count\(\s*(\d+)\s*,\s*([^)]+?)\s*\)", a)
     if m: return ["i", norm(m[2])] if m[1] == "1" else ["c", int(m[1]), norm(m[2])]
     m = re.fullmatch(r"can_access\((.+)\)", a)
@@ -134,9 +135,14 @@ for f in z.namelist():
         for a in yaml.safe_load(z.read(f)) or []:
             d = areas.setdefault(a["name"], {"x": {}, "l": {}, "e": {}})
             for k, key in (("exits", "x"), ("locations", "l"), ("events", "e")):
-                for n, r in (a.get(k) or {}).items(): d[key][norm(n) if key == "e" else n] = P(r)
+                for n, r in (a.get(k) or {}).items(): d[key][n] = P(r)
 mac = {k: P(v) for k, v in macros.items()}
 ER = [n for n in settings if re.match(r"(randomize_(dungeon|trial|door|interior|overworld|entrance|gate)|decouple|random_starting_spawn)", n)]
-open("logic.js", "w", encoding="utf-8").write("window.SSHD_LOGIC=" + json.dumps({"areas": areas, "macros": mac, "settings": settings, "er": ER}, separators=(",", ":")) + ";")
+E = yaml.safe_load(z.read(bk + "entrance_shuffle_data.yaml"))
+ent = [{"t": e["type"], "f": [e["forward"]["connection"], e["forward"].get("alias", "")],
+        "r": ([e["return"]["connection"], e["return"].get("alias", "")] if "return" in e else None)} for e in E if e["type"] != "Bird Statue"]
+_bs = yaml.safe_load(z.read(bk + "bird_statue_data.yaml"))
+statues = [[k, v.get("flag_space", "")] for k, v in _bs.items() if k in areas]
+open("logic.js", "w", encoding="utf-8").write("window.SSHD_LOGIC=" + json.dumps({"areas": areas, "macros": mac, "settings": settings, "er": ER, "ent": ent, "statues": statues}, separators=(",", ":")) + ";")
 print("logique :", len(areas), "zones,", sum(len(a["l"]) for a in areas.values()), "checks avec règles,", len(mac), "macros,", len(settings), "réglages,", len(errors), "erreurs d'analyse")
 for e in errors[:5]: print("  ", e)
