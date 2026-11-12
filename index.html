@@ -26,7 +26,7 @@ h2{margin:0 0 8px;font-size:15px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile.ghost img,.sw.ghost img{opacity:.5;filter:grayscale(1) brightness(.8)}
 .swcol{width:190px;max-width:100%;flex:none}.swcol .swblock{width:100%}.caprow{align-items:flex-start}.caprow .cap{font-size:12px;line-height:1.5}
 .songblock{position:relative;width:min(300px,100%);aspect-ratio:405/533;background:url(img/Song_Block.png) center/100% 100% no-repeat;flex:none}.tabs{position:absolute;left:50%;top:50%;width:66%;aspect-ratio:139/107;transform:translate(-50%,-50%);cursor:pointer}.tabs img{position:absolute;display:block}.tabs img.off{opacity:.7;filter:brightness(1.9)}.tabs img.ghost{opacity:.5;filter:grayscale(1) brightness(.8)}
-.erow{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}.erow select{max-width:55%}#ertypes{gap:12px}.cap{margin-top:6px;font-size:13px;line-height:1.6}.caprow{display:flex;gap:8px;align-items:center;margin-top:6px}.caprow .tile{flex:none}.hp{line-height:0}.hp img,.hp svg{display:block;width:100%}.hp small{position:absolute;left:50%;top:50%;transform:translateX(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 3px #000,0 0 4px #000}.hud img{width:16px;height:16px}.tbg img{width:38px;height:38px}.tfg img{width:24px;height:24px}.tt{display:inline-block;font-size:10px;font-weight:700;background:#374151;border-radius:4px;padding:3px 4px;line-height:1}
+.erow{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}.erow select{max-width:55%}#ertypes{gap:12px}.cap{margin-top:6px;font-size:13px;line-height:1.6}.caprow{display:flex;gap:8px;align-items:center;margin-top:6px}.caprow .tile{flex:none}.hp{line-height:0}.hp img,.hp svg{display:block;width:100%}.hp small{position:absolute;left:50%;top:50%;transform:translateX(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 3px #000,0 0 4px #000}.hpc{margin:2px 0 0 6px;font-size:12px;color:var(--mut)}.hpc b{color:var(--fg)}.hud img{height:16px;width:auto}.hp .hl{position:relative;width:100%;aspect-ratio:512/462}.hp .hl img{position:absolute;left:0;top:0;width:100%;height:100%}.hp .hl img.hq{width:50%;height:50%}.tbg img{width:38px;height:38px}.tfg img{max-width:24px;max-height:30px;width:auto;height:auto}.tt{display:inline-block;font-size:10px;font-weight:700;background:#374151;border-radius:4px;padding:3px 4px;line-height:1}
 .dg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 10px;text-align:center;font-size:11px;color:var(--mut)}.dg .tile{width:100%;max-width:56px;height:44px;margin:0 auto}.dg .tile img{max-height:38px}.tile.off span{opacity:.35}
 dialog{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;width:min(680px,94vw);max-height:86vh;overflow:auto}dialog::backdrop{background:#000a}.dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .osec{margin:10px 0 4px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
@@ -68,7 +68,7 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
     </section>
     <section class="panel"><h2>Objets <span id="icount"></span></h2>
       <div class="bar"><input id="mi" list="itemlist" placeholder="Ajouter un objet à la main…" size="26"><datalist id="itemlist"></datalist><button id="madd">+</button></div>
-      <div id="grid"></div><div id="items"></div><p class="mut">Clic sur une icône : monte d'un niveau ; une fois au maximum, un clic remet à 0 · clic droit : −1. Seuls les ajouts manuels sont modifiables (pas les objets reçus du serveur).</p></section>
+      <div id="grid"></div><div id="items"></div><p class="mut">Clic sur une icône : monte d'un niveau ; une fois au maximum, un clic remet à 0 · clic droit : −1. Tu peux aussi corriger ce que le serveur a envoyé : l'écart est repéré par ✎.</p></section>
     <section class="panel"><h2>Notes</h2><textarea id="notes" placeholder="Tes notes…"></textarea>
       <div class="bar" style="margin-top:6px"><button class="sec" id="exp">Exporter l'état</button><button class="sec" id="imp">Importer</button><button class="sec" id="rst">Réinitialiser</button><input type="file" id="file" accept=".json" hidden></div>
       <p class="mut">Tout est sauvegardé automatiquement dans ce navigateur (localStorage).</p></section>
@@ -97,7 +97,7 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
     <div id="locs"></div>
   </section>
 </main>
-<dialog id="opt"><div class="dhead"><b>Objets optionnels</b><button id="optx" class="sec">Fermer</button></div><div id="optbody"></div><p class="mut">Clic : +1 · clic droit : −1 (ajouts manuels). Les objets reçus du serveur sont comptés automatiquement.</p></dialog>
+<dialog id="opt"><div class="dhead"><b>Objets optionnels</b><button id="optx" class="sec">Fermer</button></div><div id="optbody"></div><p class="mut">Clic : +1 · clic droit : −1 (ajouts manuels). Les objets reçus du serveur sont comptés automatiquement et restent corrigeables.</p></dialog>
 <script src="data.js"></script>
 <script src="logic.js"></script>
 <script src="icons.js"></script>
@@ -139,7 +139,7 @@ function isActive(l, act) {
   return true;
 }
 function inventory() {
-  for (const n of Object.keys(st.mitems)) { st.mitems[n] = Math.max(0, Math.min(st.mitems[n], maxOf(n) - apOf(n))); if (!st.mitems[n]) delete st.mitems[n]; }
+  for (const n of Object.keys(st.mitems)) { st.mitems[n] = Math.max(-apOf(n), Math.min(st.mitems[n], maxOf(n) - apOf(n))); if (!st.mitems[n]) delete st.mitems[n]; }
   const inv = {}, all = { ...st.apItems };
   for (const [n, c] of Object.entries(st.mitems)) all[n] = (all[n] || 0) + c;
   for (const [n, c] of Object.entries(all)) inv[norm(n)] = (inv[norm(n)] || 0) + c;
@@ -288,7 +288,7 @@ $('locs').addEventListener('click', (e) => {
 
 
 const ICONS = window.SSHD_ICONS || {};
-const MAXC = { 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4, 'Progressive Pouch': 5, 'Extra Wallet': 3, 'Heart Piece': 24, 'Skyview Temple Small Key': 3, 'Fire Sanctuary Small Key': 3, 'Ancient Cistern Small Key': 2, 'Sandship Small Key': 2, 'Lanayru Caves Small Key': 2, 'Song of the Hero Part': 4 };
+const MAXC = { 'Gratitude Crystal': 80, 'Group of Tadtones': 17, 'Empty Bottle': 5, 'Key Piece': 5, 'Progressive Wallet': 4, 'Progressive Pouch': 5, 'Extra Wallet': 3, 'Heart Piece': 24, 'Heart Medal': 2, 'Life Medal': 2, 'Rupee Medal': 2, 'Skyview Temple Small Key': 3, 'Fire Sanctuary Small Key': 3, 'Ancient Cistern Small Key': 2, 'Sandship Small Key': 2, 'Lanayru Caves Small Key': 2, 'Song of the Hero Part': 4 };
 for (const n of ['Green Rupee', 'Blue Rupee', 'Red Rupee', 'Silver Rupee', 'Gold Rupee', 'Rupoor', 'Tumbleweed', 'Burn Trap', 'Curse Trap', 'Noise Trap', 'Groose Trap', 'Health Trap']) MAXC[n] = 99;
 MAXC['Heart Container'] = 6;
 const maxOf = (n) => MAXC[n] || (ICONS[n] ? Math.max(1, ICONS[n].i.length - 1) : 1);
@@ -304,22 +304,23 @@ const TABLETS = [['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)', 20, 50,
 const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)', 20, 31, 24], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)', 50, 31, 24], ["Din's Power", 'Puissance de Din — Ordinn (Eldin)', 80, 31, 24],
   ['Song of the Hero Part', 'Chant du héros (4 parties)', 50, 71, 34]];
 const TAB = window.SSHD_TABLETS;
-const trayTablets = () => !TAB ? '' : `<div class="tabs" id="tabs" style="left:25.9%;top:15.4%;width:39.5%;transform:translate(-50%,-50%)" title="Rubis = Ordinn (Eldin) · Ambre = Lanelle (Lanayru) · Émeraude = Firone (Faron) — clic sur une tablette : obtenue / retirée">${Object.entries(TAB.p).map(([n, [x, y, w]]) => `<img class="${offCls(n)}" src="${icon(n)}" style="left:${(x / TAB.w) * 100}%;top:${(y / TAB.h) * 100}%;width:${(w / TAB.w) * 100}%" alt="">`).join('')}</div>`;
+const trayTablets = () => !TAB ? '' : `<div class="tabs" id="tabs" style="left:24.7%;top:15.1%;width:39.5%;transform:translate(-50%,-50%)" title="Rubis = Ordinn (Eldin) · Ambre = Lanelle (Lanayru) · Émeraude = Firone (Faron) — clic sur une tablette : obtenue / retirée">${Object.entries(TAB.p).map(([n, [x, y, w]]) => `<img class="${offCls(n)}" src="${icon(n)}" style="left:${(x / TAB.w) * 100}%;top:${(y / TAB.h) * 100}%;width:${(w / TAB.w) * 100}%" alt="">`).join('')}</div>`;
 const icon = (n, c = countOf(n)) => { const L = ICONS[n].i; return L[c === 0 && ICONS[n].g ? L.length - 1 : Math.min(c, L.length - 1)]; };
 const offCls = (n, c = countOf(n)) => (c === 0 ? (ICONS[n].g ? 'off ghost' : ICONS[n].d ? 'off' : '') : '');
 const BEEDLE = [...new Set(D.locations.map((l) => (l[0].match(/Beedle's Airshop - (\d+) Rupee Item/) || [])[1]).filter(Boolean).map(Number))].sort((a, b) => a - b);
 const walletCap = () => [300, 500, 1000, 5000, 9000][Math.min(countOf('Progressive Wallet'), 4)] + 300 * countOf('Extra Wallet');
-const piece = (n, style, title) => `<div class="sw ${offCls(n)}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${icon(n)}" alt="">${n === 'Song of the Hero Part' && countOf(n) ? `<b>${countOf(n)}/4</b>` : n === 'Extra Wallet' && countOf(n) ? `<b>×${countOf(n)}</b>` : ''}</div>`;
+const piece = (n, style, title) => `<div class="sw ${offCls(n)}" data-it="${esc(n)}" style="${style}" title="${esc(title)}"><img src="${icon(n)}" alt="">${n === 'Extra Wallet' && countOf(n) ? `<b>×${countOf(n)}</b>` : ''}</div>`;
 const tray = (name, info) => `<div><div class="cname">${name}</div><div class="tray">${info.map(([n, t, x, y, w]) => ICONS[n] ? piece(n, `left:${x}%;top:${y}%;width:${w}%`, t + ' — clic : obtenu / retiré') : '').join('')}</div></div>`;
-function bump(n) { // monte d'un niveau ; au maximum, remet à 0 (ajouts manuels seulement)
+function bump(n) { // monte d'un niveau ; au maximum, retour à 0 (même si le serveur avait fourni l'objet : écart manuel négatif)
   const ap = apOf(n), m = st.mitems[n] || 0;
-  if (ap + m >= maxOf(n)) delete st.mitems[n]; else st.mitems[n] = m + 1;
+  st.mitems[n] = ap + m >= maxOf(n) ? -ap : m + 1;
+  if (!st.mitems[n]) delete st.mitems[n];
   save(); render();
 }
-const SB = [ // [objet, x %, y %, largeur %, info-bulle] — icônes recadrées, centrées sur chaque emplacement de Song_Block.png
-  ['Song of the Hero Part', 49.4, 36.4, 20.7, 'Chant du héros (4 parties)'], ['Ballad of the Goddess', 27.9, 47.1, 12.3, 'Ballade de la déesse'], ["Farore's Courage", 72.1, 47.1, 12.3, 'Courage de Farore — Firone (Faron)'],
-  ["Nayru's Wisdom", 37, 63.8, 12.3, 'Sagesse de Nayru — Lanelle (Lanayru)'], ["Din's Power", 63.5, 62.5, 12.3, 'Puissance de Din — Ordinn (Eldin)'], ["Goddess's Harp", 50.9, 50.3, 18.8, 'Harpe de la déesse'],
-  ['Sailcloth', 15.3, 69, 16.3, 'Voile'], ['Progressive Mitts', 83.2, 68.3, 15.8, 'Gants (mitaines mogma)'], ["Water Dragon's Scale", 36.3, 87.8, 14.8, "Écaille du dragon d'eau"], ['Fireshield Earrings', 65.7, 88, 16.3, 'Boucles du bouclier de feu']];
+const SB = [ // [objet, x %, y %, largeur %, info-bulle] — centres mesurés sur Song_Block.png (analyse des emplacements)
+  ['Song of the Hero Part', 51.2, 37.9, 40, 'Chant du héros'], ['Ballad of the Goddess', 28.6, 48, 15.2, 'Ballade de la déesse'], ["Farore's Courage", 72.3, 47.8, 15.2, 'Courage de Farore — Firone (Faron)'],
+  ["Nayru's Wisdom", 37.6, 63, 15.2, 'Sagesse de Nayru — Lanelle (Lanayru)'], ["Din's Power", 64.2, 63, 15.2, 'Puissance de Din — Ordinn (Eldin)'], ["Goddess's Harp", 51.5, 51, 18.6, 'Harpe de la déesse'],
+  ['Sailcloth', 17.1, 69.2, 20.3, 'Parachâle'], ['Progressive Mitts', 85.2, 68.7, 20.8, 'Gants mogma'], ["Water Dragon's Scale", 35.1, 87.5, 20.8, "Écaille du dragon d'eau"], ['Fireshield Earrings', 66.4, 89, 20.3, 'Boucles du bouclier de feu']];
 const songBlock = () => `<div class="songblock">${trayTablets()}${triforceSVG()}${SB.filter(([n]) => ICONS[n]).map(([n, x, y, w, t]) => piece(n, `left:${x}%;top:${y}%;width:${w}%`, t + ' — clic : obtenu / retiré')).join('')}</div>`;
 const tileHTML = (n) => {
   const c = countOf(n), ic = ICONS[n];
@@ -349,22 +350,26 @@ const capHTML = () => { const c = walletCap(); return `<div class="caprow">${ICO
 const HP = 'M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z';
 // ---- Images personnalisées (dossier img/custom/) : un fichier présent remplace le dessin de secours ----
 const CUSTOM = new Set(); let customT = 0;
-const CUSTOM_FILES = ['heart_0.png', 'heart_1.png', 'heart_2.png', 'heart_3.png', 'heart_4.png', 'medal_bug.png', 'medal_cursed.png', 'medal_heart.png', 'medal_life.png', 'medal_potion.png', 'medal_rupee.png', 'medal_treasure.png',
+const CUSTOM_FILES = ['heart_full.png', 'heart_1.png', 'heart_2.png', 'heart_3.png', 'heart_4.png', 'medal_bug.png', 'medal_cursed.png', 'medal_heart.png', 'medal_life.png', 'medal_potion.png', 'medal_rupee.png', 'medal_treasure.png',
   'rupee_green.png', 'rupee_blue.png', 'rupee_red.png', 'rupee_silver.png', 'rupee_gold.png', 'rupee_greg.png', 'rupoor.png', 'trap_burn.png', 'trap_curse.png', 'trap_noise.png', 'trap_groose.png', 'trap_health.png'];
 if (typeof Image !== 'undefined') CUSTOM_FILES.forEach((f) => { const im = new Image(); im.onload = () => { CUSTOM.add(f); clearTimeout(customT); customT = setTimeout(render, 40); }; im.src = 'img/custom/' + f; });
 const cimg = (f, fallback) => (CUSTOM.has(f) ? `<img src="img/custom/${f}" alt="">` : fallback);
 const heartState = (p) => (p === 0 ? 0 : p % 4 === 0 ? 4 : p % 4); // 1 quart, 2 moitié, 3 trois quarts, 4 cœur entier ; jamais 0 après le premier quart
-const heartSVG = (s) => `<svg viewBox="0 0 24 24" width="100%"><defs>${[[0, 0], [12, 0], [12, 12], [0, 12]].map(([x, y], i) => `<clipPath id="hq${i}"><rect x="${x}" y="${y}" width="12" height="12"/></clipPath>`).join('')}</defs><path d="${HP}" fill="#3a3f4b"/>${[0, 1, 2, 3].slice(0, s).map((i) => `<path d="${HP}" fill="#ef4444" clip-path="url(#hq${i})"/>`).join('')}<path d="${HP}" fill="none" stroke="#fff" stroke-width=".9"/><path d="M12 3v18M2 12h20" stroke="#0006" stroke-width=".5"/></svg>`;
-const heartSlot = () => { const p = countOf('Heart Piece'), s = heartState(p); return `<div class="sw hp" data-it="Heart Piece" style="left:22.1%;top:85.4%;width:33%" title="Quarts de cœur : ${p}/24 — clic : +1, au maximum retour à 0">${cimg(`heart_${s}.png`, heartSVG(s))}<small>${p}/24</small></div>`; };
+const heartSVG = (s) => `<svg viewBox="0 0 24 24" width="100%"><defs>${[[0, 0], [12, 0], [12, 12], [0, 12]].map(([x, y], i) => `<clipPath id="hq${i}"><rect x="${x}" y="${y}" width="12" height="12"/></clipPath>`).join('')}</defs>${[0, 1, 2, 3].slice(0, s).map((i) => `<path d="${HP}" fill="#ef4444" clip-path="url(#hq${i})"/>`).join('')}<path d="${HP}" fill="none" stroke="#fff" stroke-width=".9"/><path d="M12 3v18M2 12h20" stroke="#0006" stroke-width=".5"/></svg>`;
+const HQ = { 1: 'left:50%;top:0', 2: 'left:50%;top:50%', 3: 'left:0;top:50%', 4: 'left:0;top:0' }; // position de chaque quart dans le cœur
+const heartVisual = (s) => !CUSTOM.has('heart_1.png') ? heartSVG(s) : `<div class="hl">${[1, 2, 3, 4].slice(0, s).filter((i) => CUSTOM.has(`heart_${i}.png`)).map((i) => `<img class="hq" style="${HQ[i]}" src="img/custom/heart_${i}.png" alt="">`).join('')}</div>`;
+const heartSlot = () => { const p = countOf('Heart Piece'), s = heartState(p); return `<div class="sw hp" data-it="Heart Piece" style="left:22.3%;top:86.3%;width:50%" title="Quarts de cœur : ${p}/24 — clic : +1, au maximum retour à 0">${heartVisual(s)}</div>`; };
 const miniHeart = (c) => `<svg viewBox="0 0 24 24" width="16" height="16"><path d="${HP}" fill="${c}"/></svg>`;
+const hudHeart = (c, hue) => (CUSTOM.has('heart_full.png') ? `<img src="img/custom/heart_full.png" alt="" style="${hue ? `filter:hue-rotate(${hue}deg)` : ''}">` : miniHeart(c));
+const heartCaption = () => `<div class="hpc">Quarts de cœur : <b>${countOf('Heart Piece')}</b>/24</div>`;
 const heartHUD = () => {
-  const q = Math.floor(countOf('Heart Piece') / 4), hc = countOf('Heart Container'), md = countOf('Heart Medal') + countOf('Life Medal');
-  return `<div class="hud" title="Cœurs obtenus depuis le début"><span class="hc" title="Cœurs complets formés par les quarts de cœur">${cimg('heart_4.png', miniHeart('#ef4444'))} ${q}</span><span class="hc" data-it="Heart Container" style="cursor:pointer" title="Réceptacles de cœur (${hc}/6) — clic : +1">${miniHeart('#f5c542')} ${hc}</span><span class="hc" title="Cœurs « théoriques » des médailles de cœur et de vie">${miniHeart('#60a5fa')} ${md}</span><span style="margin-left:auto">Total : <b>${q + hc}</b>${md ? ` <span style="color:#60a5fa">+${md}</span>` : ''}</span></div>`;
+  const q = Math.floor(countOf('Heart Piece') / 4), hc = countOf('Heart Container'), md = countOf('Heart Medal');
+  return `<div class="hud" title="Cœurs obtenus depuis le début"><span class="hc" title="Cœurs complets formés par les quarts de cœur">${hudHeart('#ef4444', 0)} ${q}</span><span class="hc" data-it="Heart Container" style="cursor:pointer" title="Réceptacles de cœur (${hc}/6) — clic : +1">${hudHeart('#f5c542', 55)} ${hc}</span><span class="hc" title="Cœurs « théoriques » des médailles de cœur (2 au maximum)">${hudHeart('#60a5fa', 205)} ${md}</span><span style="margin-left:auto">Total : <b>${q + hc}</b>${md ? ` <span style="color:#60a5fa">+${md}</span>` : ''}</span></div>`;
 };
 const TRIN = ['Triforce of Courage', 'Triforce of Wisdom', 'Triforce of Power'];
 const triCount = () => TRIN.reduce((s, n) => s + countOf(n), 0);
-function bumpTri() { if (triCount() >= 3) TRIN.forEach((n) => delete st.mitems[n]); else { const n = TRIN.find((x) => countOf(x) === 0); if (n) st.mitems[n] = 1; } save(); render(); }
-function minusTri() { for (const n of [...TRIN].reverse()) if (st.mitems[n]) { delete st.mitems[n]; break; } save(); render(); }
+function bumpTri() { if (triCount() >= 3) TRIN.forEach((n) => { st.mitems[n] = -apOf(n); if (!st.mitems[n]) delete st.mitems[n]; }); else { const n = TRIN.find((x) => countOf(x) === 0); if (n) { st.mitems[n] = (st.mitems[n] || 0) + 1; if (!st.mitems[n]) delete st.mitems[n]; } } save(); render(); }
+function minusTri() { for (const n of [...TRIN].reverse()) if (countOf(n) > 0) { st.mitems[n] = (st.mitems[n] || 0) - 1; if (!st.mitems[n]) delete st.mitems[n]; break; } save(); render(); }
 const triforceSVG = () => (ICONS.Triforce ? `<div class="sw" data-tri="1" style="left:74.1%;top:17.3%;width:36%" title="Triforce (${triCount()}/3) — clic : pièce obtenue, au maximum retour à 0 · clic droit : −1"><img src="${ICONS.Triforce.i[Math.min(triCount(), 3)]}" alt=""></div>` : '');
 
 const MEDALS = [['Bug Medal', 'I', 'Insectes', 'medal_bug.png'], ['Cursed Medal', 'M', 'Maudite', 'medal_cursed.png'], ['Heart Medal', 'C', 'Cœur', 'medal_heart.png'], ['Life Medal', 'V', 'Vie', 'medal_life.png'], ['Potion Medal', 'P', 'Potions', 'medal_potion.png'], ['Rupee Medal', 'R', 'Rubis', 'medal_rupee.png'], ['Treasure Medal', 'T', 'Trésors', 'medal_treasure.png']];
@@ -376,17 +381,17 @@ const ocard = (n, visual, label, cls = '') => `<div class="oc ${cls} ${countOf(n
 const medalSVG = (l) => `<svg viewBox="0 0 32 42" width="38" height="46"><path d="M8 0h7l4 15h-7z" fill="#3b82f6"/><path d="M24 0h-7l-4 15h7z" fill="#ef4444"/><circle cx="16" cy="27" r="12" fill="#fbbf24" stroke="#92400e" stroke-width="2"/><text x="16" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#78350f">${l}</text></svg>`;
 function renderOpt() {
   const eff = (k) => (st.over[k] !== undefined ? st.over[k] : L.settings[k].d), on = (k) => eff(k) === 'on';
-  const trapMode = eff('trap_mode') !== 'no_traps', anyTrap = TRAPS.some(([n]) => countOf(n)) || countOf('Rupoor');
+  const trapMode = eff('trap_mode') !== 'no_traps', anyTrap = TRAPS.some(([n]) => countOf(n)) || countOf('Rupoor'), trapKnown = st.over.trap_mode !== undefined, trapTotal = TRAPS.reduce((s, t) => s + countOf(t[0]), 0) + countOf('Rupoor');
   let o = `<div class="osec">Médailles</div><div class="ogrid">${MEDALS.map(([n, l, lab, f]) => ocard(n, cimg(f, medalSVG(l)), lab)).join('')}</div>`;
   o += `<div class="osec">Rubis</div><div class="ogrid">${RUP.map(([n, c, lab, f]) => ocard(n, cimg(f, gem(c)), lab)).join('')}${ocard('Tumbleweed', '<img src="img/junk_tumbleweed.png" alt="">', 'Tumbleweed')}</div>`;
-  o += `<div class="osec">Spéciaux</div><div class="ogrid">${ocard('Greg The Green Rupee', cimg('rupee_greg.png', gem('#22c55e', 40)), 'Greg le rubis vert', 'sp')}${ocard('Tim The Tumbleweed', '<img src="img/junk_tumbleweed.png" alt="" style="filter:drop-shadow(0 0 6px #fbbf24)">', 'Tim le tumbleweed', 'sp')}</div>`;
-  if (trapMode || anyTrap) {
+  o += `<div class="osec">Spéciaux</div><div class="ogrid">${ocard('Greg The Green Rupee', cimg('rupee_greg.png', cimg('rupee_green.png', gem('#22c55e', 40))), 'Greg le rubis vert', 'sp')}${ocard('Tim The Tumbleweed', '<img src="img/junk_tumbleweed.png" alt="" style="filter:drop-shadow(0 0 6px #fbbf24)">', 'Tim le tumbleweed', 'sp')}</div>`;
+  if (trapMode || anyTrap || !trapKnown) { // options inconnues (hors connexion) : on affiche tout
     const rp = cimg('rupoor.png', gem('#7f1d1d', 26));
-    o += `<div class="osec">Pièges encaissés</div><div class="ogrid">${ocard('Rupoor', cimg('rupoor.png', gem('#7f1d1d', 36)), 'Rupoor')}${TRAPS.filter(([n, t, k]) => on(k) || countOf(n)).map(([n, t, k, lab, f]) => ocard(n, `<span class="tbg">${cimg(f, `<span class="tt">${t}</span>`)}</span><span class="tfg">${rp}</span>`, lab)).join('')}</div>`;
+    o += `<div class="osec">Pièges encaissés — total : ${trapTotal}</div><div class="ogrid">${ocard('Rupoor', cimg('rupoor.png', gem('#7f1d1d', 36)), 'Rupoor')}${TRAPS.filter(([n, t, k]) => on(k) || countOf(n) || !trapKnown).map(([n, t, k, lab, f]) => ocard(n, CUSTOM.has(f) ? cimg(f, '') : `<span class="tbg"><span class="tt">${t}</span></span><span class="tfg">${rp}</span>`, lab)).join('')}</div>`;
   }
   $('optbody').innerHTML = o;
 }
-function minus(n) { if (st.mitems[n]) { st.mitems[n]--; if (st.mitems[n] <= 0) delete st.mitems[n]; save(); render(); } }
+function minus(n) { const ap = apOf(n), m = st.mitems[n] || 0; if (ap + m > 0) { st.mitems[n] = m - 1; if (!st.mitems[n]) delete st.mitems[n]; save(); render(); } }
 $('optbody').addEventListener('click', (e) => { const t = e.target.closest('[data-it]'); if (t) bump(t.dataset.it); });
 $('optbody').addEventListener('contextmenu', (e) => { const t = e.target.closest('[data-it]'); if (t) { e.preventDefault(); minus(t.dataset.it); } });
 $('optbtn').onclick = () => { renderOpt(); if ($('opt').showModal) $('opt').showModal(); };
@@ -400,8 +405,8 @@ function renderItems() {
     heartSlot() +
     piece('Progressive Wallet', 'left:79%;top:87.7%;width:32%', `Portefeuille (niveau ${countOf('Progressive Wallet')}/4)`) + '</div>';
   const tiles = GRID.map((n) => tileHTML(n)).join('');
-  $('grid').innerHTML = `<div class="blocks"><div class="swcol">${sword}${capHTML()}${heartHUD()}</div>${songBlock()}</div>${dungeonsHTML()}<div class="grid">${tiles}</div>`;
-  const others = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].filter((n) => !GRID.includes(n) && !BLOCK.has(n) && !HIDE.has(n)).sort();
+  $('grid').innerHTML = `<div class="blocks"><div class="swcol">${sword}${heartCaption()}${capHTML()}${heartHUD()}</div>${songBlock()}</div>${dungeonsHTML()}<div class="grid">${tiles}</div>`;
+  const others = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].filter((n) => !GRID.includes(n) && !BLOCK.has(n) && !HIDE.has(n)).filter((n) => countOf(n) > 0).sort();
   $('items').innerHTML = others.map((n) => {
     const a = st.apItems[n] || 0, m = st.mitems[n] || 0, t = a + m, ic = ICONS[n];
     return `<div ${m ? `data-mi="${esc(n)}" style="cursor:pointer" title="Retirer un exemplaire ajouté à la main"` : ''}><span>${ic ? `<img src="${ic.i[Math.min(t, ic.i.length - 1)]}" height="20" style="vertical-align:middle"> ` : ''}${esc(n)}${m ? ' ✎' : ''}</span><b>${t > 1 ? '×' + t : '✓'}</b></div>`;
@@ -480,10 +485,7 @@ function render() {
   $('warn').style.display = er.length && !erUsed ? 'block' : 'none';
   $('warn').textContent = er.length && !erUsed ? "Entrées mélangées détectées : ouvre « Entrées mélangées » pour cocher les types et renseigner tes portes, sinon la logique suppose les entrées d'origine." : '';
 }
-$('items').addEventListener('click', (e) => {
-  const d = e.target.closest('[data-mi]'); if (!d) return;
-  const n = d.dataset.mi; st.mitems[n]--; if (st.mitems[n] <= 0) delete st.mitems[n]; save(); render();
-});
+$('items').addEventListener('click', (e) => { const d = e.target.closest('[data-mi]'); if (d) minus(d.dataset.mi); });
 $('madd').onclick = () => {
   const n = $('mi').value.trim(), real = Object.values(D.items).find((x) => x.toLowerCase() === n.toLowerCase());
   if (!real) return; st.mitems[real] = (st.mitems[real] || 0) + 1; $('mi').value = ''; save(); render();

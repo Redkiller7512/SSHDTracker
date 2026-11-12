@@ -41,6 +41,9 @@ EXTRA = ["junk/tumbleweed.png", "Song_Block.png", "bosses/g1.png", "bosses/g2.pn
          "swords/No_Farores_Flame.png", "swords/Nayrus_Flame.png", "swords/No_Nayrus_Flame.png"]
 for rel in EXTRA:
     shutil.copyfile(os.path.join(repo, "src/assets", rel), "img/" + rel.replace("/", "_").replace(" ", "_"))
+# Chant du héros : 4 parties dans le pool -> 5 états (aucune, SOTH1, SOTH2, SOTH3, SOTH4) ; le tracker d'origine sautait SOTH3
+shutil.copyfile(os.path.join(repo, "src/assets/songs", "SOTH3.png"), "img/songs_SOTH3.png")
+_s = icons["Song of the Hero Part"]["i"]; icons["Song of the Hero Part"]["i"] = _s[:-1] + ["img/songs_SOTH3.png"] + _s[-1:]
 # Recadrage : on rogne les marges transparentes (même cadre pour tous les états d'un objet) pour que chaque icône soit bien centrée dans son emplacement
 TRIM_ITEMS = ["Ballad of the Goddess", "Farore's Courage", "Nayru's Wisdom", "Din's Power", "Song of the Hero Part", "Goddess's Harp", "Sailcloth",
               "Progressive Mitts", "Water Dragon's Scale", "Fireshield Earrings"]

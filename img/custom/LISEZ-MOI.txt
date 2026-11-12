@@ -1,22 +1,7 @@
-Dépose ici tes images (PNG à fond transparent, de préférence 128x128 pixels, carrées) avec EXACTEMENT ces noms.
-Un fichier absent = le dessin de secours reste affiché. Recharge la page (Ctrl+F5) après un ajout.
+Images personnalisées (PNG à fond transparent). Un fichier absent = le dessin de secours reste affiché. Recharge avec Ctrl+F5 après un ajout.
 
-CŒURS (emplacement du cœur, un fichier par état)
-  heart_0.png   cœur vide (aucun quart, facultatif)
-  heart_1.png   un quart        heart_2.png   la moitié
-  heart_3.png   trois quarts    heart_4.png   cœur entier (sert aussi d'icône dans le petit tableau des cœurs)
-
-MÉDAILLES
-  medal_bug.png  medal_cursed.png  medal_heart.png  medal_life.png  medal_potion.png  medal_rupee.png  medal_treasure.png
-
-RUBIS
-  rupee_green.png  rupee_blue.png  rupee_red.png  rupee_silver.png  rupee_gold.png
-  rupee_greg.png   (facultatif : Greg le rubis vert)
-
-PIÈGES
-  rupoor.png        le Rupoor (sert pour sa carte ET se superpose devant chaque piège)
-  trap_burn.png     feu (piège de brûlure)
-  trap_curse.png    malédiction
-  trap_noise.png    boutons de menu + symbole du son
-  trap_groose.png   Groose
-  trap_health.png   santé à 1 (si l'option est activée)
+CŒURS : heart_1.png à heart_4.png = les QUATRE QUARTS, chacun à sa place dans un cadre de même taille (le tracker les empile : 1 quart, 2, 3, puis le cœur entier).
+        heart_full.png = cœur entier assemblé (sert à l'icône du petit tableau des cœurs)
+MÉDAILLES : medal_bug / medal_cursed / medal_heart / medal_life / medal_potion / medal_rupee / medal_treasure .png
+RUBIS : rupee_green / rupee_blue / rupee_red / rupee_silver / rupee_gold .png · rupee_greg.png (facultatif : sinon le rubis vert est utilisé)
+PIÈGES : rupoor.png (le Rupoor seul, pour sa propre carte). Les images trap_*.png sont affichées TELLES QUELLES (elles contiennent déjà le Rupoor) ; · trap_burn / trap_curse / trap_noise / trap_groose / trap_health .png
