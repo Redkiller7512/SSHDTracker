@@ -26,7 +26,7 @@ h2{margin:0 0 8px;font-size:15px}
 .grid{display:grid;grid-template-columns:repeat(auto-fill,52px);gap:6px;margin-bottom:10px}.tile{position:relative;width:52px;height:52px;cursor:pointer;background:#0006;border-radius:6px;display:flex;align-items:center;justify-content:center}.tile img{max-width:46px;max-height:46px}.tile.off img,.sw.off img{opacity:.7;filter:brightness(1.9) contrast(.85)}.tile.ghost img,.sw.ghost img{opacity:.5;filter:grayscale(1) brightness(.8)}
 .swcol{width:190px;max-width:100%;flex:none}.swcol .swblock{width:100%}.caprow{align-items:flex-start}.caprow .cap{font-size:12px;line-height:1.5}
 .songblock{position:relative;width:min(300px,100%);aspect-ratio:405/533;background:url(img/Song_Block.png) center/100% 100% no-repeat;flex:none}.tabs{position:absolute;left:50%;top:50%;width:66%;aspect-ratio:139/107;transform:translate(-50%,-50%);cursor:pointer}.tabs img{position:absolute;display:block}.tabs img.off{opacity:.7;filter:brightness(1.9)}.tabs img.ghost{opacity:.5;filter:grayscale(1) brightness(.8)}
-.erow{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}.erow select{max-width:55%}#ertypes{gap:12px}.cap{margin-top:6px;font-size:13px;line-height:1.6}.caprow{display:flex;gap:8px;align-items:center;margin-top:6px}.caprow .tile{flex:none}.hp{line-height:0}.hp img,.hp svg{display:block;width:100%}.hp small{position:absolute;left:50%;top:50%;transform:translateX(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 3px #000,0 0 4px #000}.hpc{margin:2px 0 0 6px;font-size:12px;color:var(--mut)}.hpc b{color:var(--fg)}.hud img{height:16px;width:auto}.hp .hl{position:relative;width:100%;aspect-ratio:512/462}.hp .hl img{position:absolute;left:0;top:0;width:100%;height:100%}.hp .hl img.hq{width:50%;height:50%}.tbg img{width:38px;height:38px}.tfg img{max-width:24px;max-height:30px;width:auto;height:auto}.tt{display:inline-block;font-size:10px;font-weight:700;background:#374151;border-radius:4px;padding:3px 4px;line-height:1}
+.erow{display:flex;justify-content:space-between;gap:8px;align-items:center;padding:3px 0;border-bottom:1px dashed var(--line)}.erow select{max-width:55%}#ertypes{gap:12px}.cap{margin-top:6px;font-size:13px;line-height:1.6}.caprow{display:flex;gap:8px;align-items:center;margin-top:6px}.caprow .tile{flex:none}.hp{line-height:0}.hp img,.hp svg{display:block;width:100%}.hp small{position:absolute;left:50%;top:50%;transform:translateX(-50%);font-size:12px;font-weight:700;line-height:1;color:#fff;text-shadow:0 1px 3px #000,0 0 4px #000}.tile .tl{position:absolute;left:0;bottom:0;width:70%;font-size:8px;line-height:1.05;text-align:center;color:#fff;background:#000b;padding:1px 0 2px;border-radius:0 0 0 6px;pointer-events:none}.tile b{z-index:2}.mk.unk{background:#374151;color:#e5e7eb;border:2px dashed #fff}.entlist{display:grid;gap:6px;margin:8px 0}.entlist .cur{outline:2px solid var(--ok)}.dg .acc{font-size:10px;padding:3px 0;border:1px dashed var(--line);border-radius:6px;cursor:pointer;color:var(--mut)}.dg .acc.on{color:var(--ok);border:1px solid var(--ok)}.hpc{margin:2px 0 0 6px;font-size:12px;color:var(--mut)}.hpc b{color:var(--fg)}.hud img{height:16px;width:auto}.hp .hl{position:relative;width:100%;aspect-ratio:512/462}.hp .hl img{position:absolute;left:0;top:0;width:100%;height:100%}.hp .hl img.hq{width:50%;height:50%}.tbg img{width:38px;height:38px}.tfg img{max-width:24px;max-height:30px;width:auto;height:auto}.tt{display:inline-block;font-size:10px;font-weight:700;background:#374151;border-radius:4px;padding:3px 4px;line-height:1}
 .dg{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin:6px 0 10px;text-align:center;font-size:11px;color:var(--mut)}.dg .tile{width:100%;max-width:56px;height:44px;margin:0 auto}.dg .tile img{max-height:38px}.tile.off span{opacity:.35}
 dialog{background:var(--card);color:var(--fg);border:1px solid var(--line);border-radius:10px;width:min(680px,94vw);max-height:86vh;overflow:auto}dialog::backdrop{background:#000a}.dhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px}
 .osec{margin:10px 0 4px;font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:.06em}.ogrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(104px,1fr));gap:8px}
@@ -56,7 +56,7 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
   <input id="slot" placeholder="Nom du slot" size="14">
   <input id="pwd" placeholder="Mot de passe (optionnel)" type="password" size="14">
   <button id="go">Connecter</button>
-  <label class="mut">Apparition <select id="spawn"></select></label>
+  <label class="mut" title="Statue d'oiseau où ta partie a démarré. Cette zone devient accessible dès le départ et la logique des checks s'adapte.">Apparition <select id="spawn"></select></label>
   <button id="optbtn" class="sec" title="Médailles, rubis, pièges…">Objets optionnels</button>
   <span id="status">Déconnecté</span>
 </header>
@@ -76,6 +76,7 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
         <p class="mut">Coche les types d'entrées mélangés dans ta seed, indique ton point d'apparition, puis renseigne chaque porte découverte : « cette porte mène à… ». Une entrée inconnue est considérée comme fermée.</p>
         <div class="bar" id="ertypes"></div>
         <div class="bar"><select id="ertype"></select><input id="erq" placeholder="Filtrer…" size="16"></div>
+        <div class="bar"><label class="mut">Importer un fichier du client (entrances_….json ou tracker_state.json) <input type="file" id="erfile" accept=".json"></label></div>
         <div id="erlist"></div>
       </details></section>
     <section class="panel">
@@ -83,12 +84,12 @@ textarea{width:100%;min-height:70px}#notes{min-height:120px}.legend{font-size:12
         <p class="mut">Colle ici ta setting string du patcher (commence par <code>U1NIRFI…</code>) ou le YAML du générateur (lignes <code>option: valeur</code>, ou <code>option:valeur|option:valeur</code>). Une fois connecté au serveur, la liste exacte des checks de ton slot est utilisée automatiquement.</p>
         <textarea id="sstr" placeholder="Setting string (U1NIRFI…) ou lignes option: valeur"></textarea>
         <div class="bar" style="margin-top:6px"><button id="apply">Appliquer</button><span id="parsed" class="mut"></span></div>
-        <div id="opts"></div>
+        <div id="opts"></div><div id="hidbox"></div>
       </details>
     </section>
   </div>
   <section class="panel">
-    <div id="warn"></div><h2 id="ltitle">Checks</h2><p class="legend"><span style="color:var(--ok)">■ fait</span> · <span style="color:var(--org)">■ accessible</span> · <span style="color:var(--bad)">■ pas encore accessible</span> — clic sur un check = le cocher/décocher à la main (par exemple un coffre dont un indice révèle un piège)</p>
+    <div id="warn"></div><h2 id="ltitle">Checks</h2><p class="legend"><span style="color:var(--ok)">■ fait</span> · <span style="color:var(--org)">■ accessible</span> · <span style="color:var(--bad)">■ pas encore accessible</span> — clic sur un check = le cocher/décocher à la main (par exemple un coffre dont un indice révèle un piège) · clic droit = masquer un check qui n'existe pas dans ta seed</p>
     <div class="bar">
       <input id="q" placeholder="Rechercher…" size="20">
       <select id="type"><option value="">Tous les types</option></select>
@@ -117,7 +118,7 @@ const SKIP = new Set(['damage_multiplier', 'logic_rules', 'goal', 'music_randomi
 const defaults = () => ({ ...Object.fromEntries(Object.keys(TOGGLES).map((k) => [k, false])), rupee_shuffle: 'vanilla', beedle_shop_shuffle: 'randomized', trial_treasure_shuffle: '0' });
 
 // ---- État persistant ----
-const fresh = () => ({ opts: defaults(), over: {}, manual: [], mitems: {}, apChecked: [], apItems: {}, active: null, notes: '', srv: '', slot: '', sel: { zone: null, area: null }, q: '', ty: '', hide: false, lg: true, erc: {}, erTypes: {}, erStrict: true, erDec: false, spawn: '', dun: {} });
+const fresh = () => ({ opts: defaults(), over: {}, manual: [], mitems: {}, apChecked: [], apItems: {}, active: null, notes: '', srv: '', slot: '', sel: { zone: null, area: null }, q: '', ty: '', hide: false, lg: true, erc: {}, erTypes: {}, erStrict: true, erDec: false, spawn: '', dun: {}, hidden: [], forced: [], erAuto: {} });
 let st = fresh();
 try { const s = JSON.parse(localStorage.getItem(KEY)); if (s) st = { ...st, ...s, opts: { ...defaults(), ...(s.opts || {}) } }; } catch (e) {}
 let saveT = 0;
@@ -127,7 +128,9 @@ const manualSet = () => new Set(st.manual);
 const checkedSet = () => new Set([...st.apChecked, ...st.manual]);
 const activeSet = () => (st.active ? new Set(st.active) : null);
 
+let HID = new Set();
 function isActive(l, act) {
+  if (HID.has(l[1])) return false; // check masqué par le joueur
   if (act) return act.has(l[1]);
   const t = l[3], o = st.opts;
   if (t.includes('Goddess Cube') || t.includes('Game Beatable')) return false;
@@ -147,8 +150,8 @@ function inventory() {
   return inv;
 }
 function logic() {
-  const inv = inventory(), er = erState(), key = JSON.stringify([inv, st.over, st.erc, st.erTypes, st.erStrict, st.spawn]);
-  if (logicCache.key !== key) logicCache = { key, res: window.SSHDEngine.compute(L, inv, st.over, er) };
+  const inv = inventory(), er = erState(), key = JSON.stringify([inv, st.over, st.erc, st.erTypes, st.erStrict, st.spawn, st.forced, st.apChecked.length]);
+  if (logicCache.key !== key) logicCache = { key, res: window.SSHDEngine.compute(L, inv, st.over, er, forcedAreas()) };
   return logicCache.res;
 }
 
@@ -237,25 +240,34 @@ function renderMap(ctx) {
   let h = `<img src="${img.file}" alt="">`;
   if (z && z.img) {
     for (const a of z.areas) {
-      const s = stats((l) => areaOf(l) === a.n, ctx);
-      h += markerHTML(a.x, a.y, H, `${cls(s)} ${a.t === 'Dungeon Entrance' ? 'dn' : a.t === 'Trial Gate' ? 'tg' : ''} ${sel.area === a.n ? 'sel' : ''}`, s.t ? (ctx.lg ? `${s.a}/${s.r}` : s.r) : '–', `data-area="${esc(a.n)}" title="${esc(a.n)} : ${s.d}/${s.t} faits, ${s.a} accessibles"`);
+      const ef = entFind(a), tj = ef ? entTarget(ef.k, ef.i) : -2, shape = a.t === 'Dungeon Entrance' ? 'dn' : a.t === 'Trial Gate' ? 'tg' : '';
+      const here = ef && ((sel.ent && sel.ent.k === ef.k && sel.ent.i === ef.i) || (sel.via && sel.via.k === ef.k && sel.via.i === ef.i));
+      if (ef && tj < 0) { h += markerHTML(a.x, a.y, H, `unk ${shape} ${here ? 'sel' : ''}`, ctx.lg ? '?/?' : '?', `data-area="${esc(a.n)}" data-nt="${esc(a.t)}" title="${esc(a.n)} : entrée mélangée, destination inconnue — clic : choisir où elle mène"`); continue; }
+      const s = stats(ef ? (l) => l[2] === EK[ef.k].names[tj] : (l) => areaOf(l) === a.n, ctx);
+      h += markerHTML(a.x, a.y, H, `${cls(s)} ${shape} ${sel.area === a.n || here ? 'sel' : ''}`, s.t ? (ctx.lg ? `${s.a}/${s.r}` : s.r) : '–', `data-area="${esc(a.n)}" data-nt="${esc(a.t)}" title="${esc(a.n)}${ef ? ' → ' + esc(EK[ef.k].names[tj]) : ''} : ${s.d}/${s.t} faits, ${s.a} accessibles"`);
     }
   } else if (!z) {
     for (const zz of D.zones) { const s = stats((l) => zoneOf(l) === zz.k, ctx); h += markerHTML(zz.x, zz.y, H, `big ${cls(s)}`, `${zz.fr} ${ctx.lg ? s.a + '/' : ''}${s.r}`, `data-zone="${esc(zz.k)}" title="${s.d}/${s.t} faits"`); }
   }
   $('map').innerHTML = h;
-  $('crumbs').innerHTML = `<button class="sec" data-zone="">🌍 Monde</button>` + (z ? `<button class="sec" data-zone="${esc(z.k)}" data-area="">${z.fr}</button>` : '') + (sel.area ? `<button class="sec" disabled>${esc(sel.area)}</button>` : '');
+  $('crumbs').innerHTML = `<button class="sec" data-zone="">🌍 Monde</button>` + (z ? `<button class="sec" data-zone="${esc(z.k)}" data-area="">${z.fr}</button>` : '') + (sel.area ? `<button class="sec" disabled>${esc(sel.area)}</button>` : '') + (sel.ent && st.erTypes[EK[sel.ent.k].g] ? `<button class="sec" disabled>Entrée : ${esc(EK[sel.ent.k].names[sel.ent.i])}</button>` : '');
 }
 document.addEventListener('click', (e) => {
   const b = e.target.closest('[data-zone],[data-area]'); if (!b || b.closest('#opts')) return;
   if ('zone' in b.dataset) { st.sel = { zone: b.dataset.zone || null, area: null }; }
-  if (b.dataset.area) st.sel.area = b.dataset.area;
+  if (b.dataset.area) {
+    const ef = entFind({ t: b.dataset.nt || '', n: b.dataset.area }), tj = ef ? entTarget(ef.k, ef.i) : -1;
+    if (ef && tj < 0) { st.sel.area = null; st.sel.ent = ef; st.sel.via = null; } // destination inconnue : on la demande
+    else if (ef) { st.sel.area = EK[ef.k].names[tj]; st.sel.ent = null; st.sel.via = ef; } // déjà choisie : on affiche directement les checks
+    else { st.sel.area = b.dataset.area; st.sel.ent = null; st.sel.via = null; }
+  }
   save(); render();
 });
 
 // ---- Liste des checks ----
 function renderList(ctx) {
   const sel = st.sel, q = st.q.toLowerCase(), ty = st.ty;
+  if (sel.ent && st.erTypes[EK[sel.ent.k].g]) { renderEntSelector(); return; }
   const inSel = (l) => (sel.area ? areaOf(l) === sel.area : sel.zone ? zoneOf(l) === sel.zone : true);
   const groups = new Map();
   for (const l of D.locations) {
@@ -276,7 +288,15 @@ function renderList(ctx) {
         return `<div class="loc ${done ? 'c' : acc ? 'acc' : 'lock'}" data-code="${l[1]}" title="${ap ? 'Validé par le serveur' : 'Clic : cocher/décocher à la main'}"><input type="checkbox" ${done ? 'checked' : ''} ${ap ? 'disabled' : ''} tabindex="-1"><span>${esc(l[0])}</span><i>${man ? '<span class="man">✎ coché à la main</span> · ' : ''}${esc(l[3].filter((t) => t !== 'Custom Flag').join(', '))}</i></div>`;
       }).join('') + '</details>';
   }
-  $('locs').innerHTML = h || '<p class="mut">Aucun check à afficher.</p>';
+  const viaBar = sel.via && sel.area && st.erTypes[EK[sel.via.k].g] ? `<div class="erow"><span>${esc(EK[sel.via.k].names[sel.via.i])} → <b>${esc(sel.area)}</b></span><button class="sec" data-entchange="1">Changer la destination</button></div>` : '';
+  let empty = '';
+  if (!h) {
+    const all = D.locations.filter((l) => inSel(l)), act = all.filter((l) => isActive(l, ctx.act));
+    const types = [...new Set(all.flatMap((l) => l[3]))].filter((t) => !['Custom Flag', 'Allowed Unreachable'].includes(t));
+    empty = !all.length ? '<p class="mut">Aucun check dans cette zone.</p>' : !act.length ? `<p class="mut">Aucun check actif ici : les ${all.length} checks de cette zone dépendent d'options non activées dans ta seed (${esc(types.join(', '))}).</p>`
+      : `<p class="mut">Aucun check ne correspond à tes filtres${ty ? ' (type : ' + esc(ty) + ')' : ''}${q ? ' (recherche : « ' + esc(q) + ' »)' : ''}${st.hide ? ' (faits masqués)' : ''}. ${act.length} check(s) actif(s) dans cette zone.</p><button class="sec" data-resetf="1">Réinitialiser les filtres</button>`;
+  }
+  $('locs').innerHTML = viaBar + (h || empty);
 }
 $('locs').addEventListener('click', (e) => {
   const r = e.target.closest('.loc'); if (!r) return;
@@ -293,12 +313,12 @@ for (const n of ['Green Rupee', 'Blue Rupee', 'Red Rupee', 'Silver Rupee', 'Gold
 MAXC['Heart Container'] = 6;
 const maxOf = (n) => MAXC[n] || (ICONS[n] ? Math.max(1, ICONS[n].i.length - 1) : 1);
 const SOTH = ['Song of the Hero Part', 'Eldin Song of the Hero Part', 'Lanayru Song of the Hero Part'];
-const apOf = (n) => (n === SOTH[0] ? SOTH.reduce((s, k) => s + (st.apItems[k] || 0), 0) : st.apItems[n] || 0);
+const apOf = (n) => (n === SOTH[0] ? SOTH.reduce((s, k) => s + (st.apItems[k] || 0), 0) : n === 'Gratitude Crystal' ? (st.apItems[n] || 0) + 5 * (st.apItems['Gratitude Crystal Pack'] || 0) : st.apItems[n] || 0); // un pack = 5 cristaux
 const countOf = (n) => apOf(n) + (st.mitems[n] || 0);
 const BLOCK = new Set(['Ballad of the Goddess', "Goddess's Harp", 'Sailcloth', 'Progressive Mitts', "Water Dragon's Scale", 'Fireshield Earrings', 'Song of the Hero Part', 'Eldin Song of the Hero Part', 'Lanayru Song of the Hero Part', 'Song of the Hero', 'Extra Wallet', 'Progressive Sword', 'Progressive Wallet', 'Emerald Tablet', 'Ruby Tablet', 'Amber Tablet', "Farore's Courage", "Nayru's Wisdom", "Din's Power"]);
 const GRID = ['Progressive Beetle', 'Progressive Bow', 'Progressive Slingshot', 'Bomb Bag', 'Clawshots', 'Whip', 'Gust Bellows', 'Progressive Bug Net', 'Sailcloth', 'Progressive Mitts',
   "Water Dragon's Scale", 'Fireshield Earrings', "Goddess's Harp", 'Ballad of the Goddess', "Cawlin's Letter", 'Rattle', 'Sea Chart', 'Spiral Charge', 'Progressive Pouch', 'Lanayru Caves Small Key', 'Empty Bottle',
-  'Stone of Trials', 'Life Tree Fruit', 'Group of Tadtones', 'Scrapper', 'Key Piece', 'Gratitude Crystal'].filter((n) => ICONS[n] && !BLOCK.has(n));
+  'Life Tree Fruit', 'Group of Tadtones', 'Scrapper', 'Key Piece', 'Gratitude Crystal'].filter((n) => ICONS[n] && !BLOCK.has(n));
 const FLAMES = [['Din', 50, 10.6, 5], ['Nayru', 15.5, 50.7, 4], ['Farore', 85.5, 50, 3]]; // flamme, x %, y %, niveau d'épée requis
 const TABLETS = [['Ruby Tablet', 'Tablette de rubis — Ordinn (Eldin)', 20, 50, 28], ['Amber Tablet', "Tablette d'ambre — Lanelle (Lanayru)", 50, 50, 28], ['Emerald Tablet', "Tablette d'émeraude — Firone (Faron)", 80, 50, 28]];
 const SONGS = [["Farore's Courage", 'Courage de Farore — Firone (Faron)', 20, 31, 24], ["Nayru's Wisdom", 'Sagesse de Nayru — Lanelle (Lanayru)', 50, 31, 24], ["Din's Power", 'Puissance de Din — Ordinn (Eldin)', 80, 31, 24],
@@ -322,10 +342,11 @@ const SB = [ // [objet, x %, y %, largeur %, info-bulle] — centres mesurés su
   ["Nayru's Wisdom", 37.6, 63, 15.2, 'Sagesse de Nayru — Lanelle (Lanayru)'], ["Din's Power", 64.2, 63, 15.2, 'Puissance de Din — Ordinn (Eldin)'], ["Goddess's Harp", 51.5, 51, 18.6, 'Harpe de la déesse'],
   ['Sailcloth', 17.1, 69.2, 20.3, 'Parachâle'], ['Progressive Mitts', 85.2, 68.7, 20.8, 'Gants mogma'], ["Water Dragon's Scale", 35.1, 87.5, 20.8, "Écaille du dragon d'eau"], ['Fireshield Earrings', 66.4, 89, 20.3, 'Boucles du bouclier de feu']];
 const songBlock = () => `<div class="songblock">${trayTablets()}${triforceSVG()}${SB.filter(([n]) => ICONS[n]).map(([n, x, y, w, t]) => piece(n, `left:${x}%;top:${y}%;width:${w}%`, t + ' — clic : obtenu / retiré')).join('')}</div>`;
+const TILE_LABELS = { 'Lanayru Caves Small Key': 'Lanayru<br>Caves' }; // légende visible sous l'icône des objets difficiles à reconnaître
 const tileHTML = (n) => {
   const c = countOf(n), ic = ICONS[n];
   const badge = (c > 1 || (n === 'Extra Wallet' && c > 0)) && (ic.i.length <= 2 || ['Empty Bottle', 'Key Piece', 'Group of Tadtones', 'Extra Wallet'].includes(n)) ? `<b>${c}</b>` : '';
-  return `<div class="tile ${offCls(n, c)}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${icon(n)}" alt="">${badge}</div>`;
+  return `<div class="tile ${offCls(n, c)}" data-it="${esc(n)}" title="${esc(n)}${c ? ' ×' + c : ''}${n === 'Gratitude Crystal' ? ` (${st.apItems[n] || 0} seul(s) + ${st.apItems['Gratitude Crystal Pack'] || 0} pack(s) de 5)` : ''} — clic : +1 (au maximum : retour à 0), clic droit : −1"><img src="${icon(n)}" alt="">${badge}${TILE_LABELS[n] ? `<span class="tl">${TILE_LABELS[n]}</span>` : ''}</div>`;
 };
 const DUNGEONS = [ // [nom, abrégé, petite clé, clé du boss, carte, boss, check « boss vaincu »]
   ['Skyview Temple', 'SV', 'Skyview Temple Small Key', 'Skyview Temple Boss Key', 'Skyview Temple Map', 'g1', 'Skyview Temple - Defeat Boss'],
@@ -338,11 +359,48 @@ const DUNGEONS = [ // [nom, abrégé, petite clé, clé du boss, carte, boss, ch
 const CODE = Object.fromEntries(D.locations.map((l) => [l[0], l[1]]));
 const dunDone = (d, done) => !!st.dun[d[0]] || !!(d[6] && done.has(CODE[d[6]]));
 function toggleDun(name) { const d = DUNGEONS.find((x) => x[0] === name); if (d && !(d[6] && checkedSet().has(CODE[d[6]]))) { st.dun[name] = !st.dun[name]; save(); render(); } }
+const DCONN = L.ent.filter((p) => p.t === 'Dungeon').map((p) => p.f[0]); // porte d'entrée de chaque donjon, même ordre que DUNGEONS
+const TCONN = L.ent.filter((p) => p.t === 'Trial Gate').map((p) => p.f[0]); // porte de chaque Silent Realm
+const EK = [ // familles d'entrées dont on choisit la destination : donjons et Silent Realms
+  { g: 'Dungeon', type: 'Dungeon Entrance', title: 'Entrée de donjon mélangée', names: DUNGEONS.map((d) => d[0]), conns: DCONN, self: 'le même donjon' },
+  { g: 'Trial Gate', type: 'Trial Gate', title: 'Porte de Silent Realm mélangée', names: TCONN.map((c) => c.split(' -> ')[1]), conns: TCONN, self: 'la même épreuve' }];
+const entFind = (a) => { const k = EK.findIndex((x) => x.type === a.t && st.erTypes[x.g]); if (k < 0) return null; const i = EK[k].names.indexOf(a.n); return i < 0 ? null : { k, i }; };
+const entTarget = (k, i) => { const c2 = st.erc[EK[k].conns[i]]; return c2 ? EK[k].conns.indexOf(c2) : -1; }; // destination de l'entrée i (-1 : inconnue)
+const GTIP = { Dungeon: "Les 7 entrées de donjon sont mélangées : chaque porte de donjon peut mener à n'importe quel donjon (y compris le même).",
+  'Trial Gate': 'Les 4 portes des Silent Realms (déesse, Farore, Din, Nayru) sont mélangées : chaque porte peut mener à une autre épreuve.',
+  Door: 'Les portes de bâtiments et de salles (académie des chevaliers, maisons…) sont mélangées.',
+  Interior: "Les entrées d'intérieurs (bazar, statue de la déesse, grottes…) sont mélangées.",
+  Overworld: "Les passages entre grandes zones extérieures (derrière le temple, forêt profonde, entrées de région Firone / Ordinn / Lanelle…) sont mélangés.",
+  'Gate of Time': 'La porte du temps du Sealed Grounds : le passage entre le Sealed Temple, le Temple of Hylia et la porte du temps elle-même est mélangé.',
+  dec: "Découplées : chaque porte et son retour sont mélangés séparément. Entrer par une porte ne garantit plus que la sortie ramène au même endroit.",
+  strict: "Inconnues = fermées : une entrée dont tu n'as pas encore indiqué la destination est considérée comme impassable (le tracker ne devine pas). Décoche pour les considérer comme normales." };
+function renderEntSelector() { // « cette entrée mène vers… » : affiché seulement tant que la destination n'est pas choisie
+  const { k, i } = st.sel.ent, K = EK[k], cur = entTarget(k, i);
+  const btn = (j, label) => `<button class="sec ${cur === j ? 'cur' : ''}" data-entset="${j}">${cur === j ? '✔ ' : ''}${esc(label)}</button>`;
+  $('locs').innerHTML = `<div class="osec">${K.title} — ${esc(K.names[i])}</div><p class="mut">Cette entrée mène vers :</p><div class="entlist">${K.names.map((n, j) => btn(j, n + (j === i ? ` (${K.self})` : ''))).join('')}${btn(-1, 'Inconnu')}</div><p class="mut">Tant que la destination est inconnue, aucun check n'est affiché pour cette entrée.</p>`;
+}
+$('locs').addEventListener('click', (e) => {
+  const s = e.target.closest('[data-entset]');
+  if (s) { const { k, i } = st.sel.ent, j = +s.dataset.entset; setEr(EK[k].conns[i], j >= 0 ? EK[k].conns[j] : ''); if (j >= 0) { st.sel = { zone: st.sel.zone, area: EK[k].names[j], ent: null, via: { k, i } }; save(); render(); } return; }
+  if (e.target.closest('[data-entchange]')) { st.sel = { zone: st.sel.zone, area: null, ent: st.sel.via, via: null }; save(); render(); return; }
+  if (e.target.closest('[data-resetf]')) { st.q = ''; st.ty = ''; st.hide = false; $('q').value = ''; $('type').value = ''; $('hide').checked = false; save(); render(); }
+});
+const NAME = Object.fromEntries(D.locations.map((l) => [l[1], l[0]]));
+const LOCAREA = {}; for (const a in L.areas) for (const n in L.areas[a].l) LOCAREA[n] = a;
+const DENTRY = L.ent.filter((p) => p.t === 'Dungeon').map((p) => p.f[0].split(' -> ')[1]); // zone d'entrée de chaque donjon, même ordre que DUNGEONS
+const dunAuto = (i) => D.locations.some((l) => l[2] === DUNGEONS[i][0] && st.apChecked.includes(l[1])); // un check du donjon est fait : on y est allé
+function forcedAreas() { // zones atteintes d'office : accès coché à la main + donjons déjà entrés + zone de chaque check validé par le serveur
+  const s = new Set(st.forced);
+  DENTRY.forEach((a, i) => { if (dunAuto(i)) s.add(a); });
+  for (const c of st.apChecked) { const a = LOCAREA[NAME[c]]; if (a) s.add(a); }
+  return [...s];
+}
+const accTile = (d, i) => { const manual = st.forced.includes(DENTRY[i]), auto = dunAuto(i); return `<div class="acc ${manual || auto ? 'on' : ''}" data-acc="${i}" title="${esc(d[0])} — ${auto ? 'accès détecté : un de ses checks est fait' : manual ? 'accès marqué à la main — clic : retirer' : "clic : j'ai accès à ce donjon (utile avec les entrées mélangées)"}">${auto ? '✔ auto' : manual ? '✔ accès' : 'accès'}</div>`; };
 function dungeonsHTML() {
   const done = checkedSet(), col = (f) => DUNGEONS.map(f).join('');
   const mapTile = (m) => `<div class="tile ${countOf(m) ? '' : 'off'}" data-it="${esc(m)}" title="${esc(m)} — clic : obtenue / retirée"><span style="font-size:22px">🗺</span></div>`;
   return `<div class="dg">${col((d) => `<div title="${esc(d[0])}">${d[1]}</div>`)}${col((d) => `<div class="tile ${dunDone(d, done) ? '' : 'off ghost'}" data-dun="${esc(d[0])}" title="${esc(d[0])} — ${dunDone(d, done) ? 'terminé' : 'clic : marquer comme terminé'}${d[6] ? ' (aussi automatique : check « boss vaincu »)' : ''}"><img src="img/bosses_${d[5]}.png" alt=""></div>`)}` +
-    col((d) => (ICONS[d[2]] ? tileHTML(d[2]) : '<div></div>')) + col((d) => (ICONS[d[3]] ? tileHTML(d[3]) : '<div></div>')) + col((d) => mapTile(d[4])) + '</div>';
+    col((d) => (ICONS[d[2]] ? tileHTML(d[2]) : '<div></div>')) + col((d) => (ICONS[d[3]] ? tileHTML(d[3]) : '<div></div>')) + col((d) => mapTile(d[4])) + col(accTile) + '</div>';
 }
 const capHTML = () => { const c = walletCap(); return `<div class="caprow">${ICONS['Extra Wallet'] ? tileHTML('Extra Wallet') : ''}<div class="cap" style="margin:0">Rubis max : <b>${c}</b><br>Terry : ${BEEDLE.map((p) => `<span style="color:var(--${c >= p ? 'ok' : 'bad'})">${p} ${c >= p ? '✔' : '✘'}</span>`).join(' · ')}</div></div>`; };
 
@@ -375,7 +433,7 @@ const triforceSVG = () => (ICONS.Triforce ? `<div class="sw" data-tri="1" style=
 const MEDALS = [['Bug Medal', 'I', 'Insectes', 'medal_bug.png'], ['Cursed Medal', 'M', 'Maudite', 'medal_cursed.png'], ['Heart Medal', 'C', 'Cœur', 'medal_heart.png'], ['Life Medal', 'V', 'Vie', 'medal_life.png'], ['Potion Medal', 'P', 'Potions', 'medal_potion.png'], ['Rupee Medal', 'R', 'Rubis', 'medal_rupee.png'], ['Treasure Medal', 'T', 'Trésors', 'medal_treasure.png']];
 const RUP = [['Green Rupee', '#4ade80', 'Vert', 'rupee_green.png'], ['Blue Rupee', '#60a5fa', 'Bleu', 'rupee_blue.png'], ['Red Rupee', '#f87171', 'Rouge', 'rupee_red.png'], ['Silver Rupee', '#cbd5e1', 'Argent', 'rupee_silver.png'], ['Gold Rupee', '#fbbf24', 'Or', 'rupee_gold.png']];
 const TRAPS = [['Burn Trap', 'FEU', 'burn_traps', 'Brûlure', 'trap_burn.png'], ['Curse Trap', 'MAL.', 'curse_traps', 'Malédiction', 'trap_curse.png'], ['Noise Trap', 'SON', 'noise_traps', 'Bruit', 'trap_noise.png'], ['Groose Trap', 'GROOSE', 'groose_traps', 'Groose', 'trap_groose.png'], ['Health Trap', 'VIE 1', 'health_traps', 'Santé à 1', 'trap_health.png']];
-const HIDE = new Set([...MEDALS.map((m) => m[0]), ...RUP.map((r) => r[0]), ...TRAPS.map((t) => t[0]), 'Rupoor', 'Tumbleweed', 'Greg The Green Rupee', 'Tim The Tumbleweed', 'Heart Container', 'Heart Piece', 'Triforce of Courage', 'Triforce of Power', 'Triforce of Wisdom']);
+const HIDE = new Set(['Gratitude Crystal Pack', ...MEDALS.map((m) => m[0]), ...RUP.map((r) => r[0]), ...TRAPS.map((t) => t[0]), 'Rupoor', 'Tumbleweed', 'Greg The Green Rupee', 'Tim The Tumbleweed', 'Heart Container', 'Heart Piece', 'Triforce of Courage', 'Triforce of Power', 'Triforce of Wisdom']);
 const gem = (c, s = 30) => `<svg viewBox="0 0 24 24" width="${s}" height="${s}"><path d="M12 2 20 9 12 22 4 9Z" fill="${c}" stroke="#0009" stroke-width="1"/><path d="M4 9H20M12 2 9 9 12 22 15 9" fill="none" stroke="#fff7" stroke-width=".8"/></svg>`;
 const ocard = (n, visual, label, cls = '') => `<div class="oc ${cls} ${countOf(n) ? '' : 'off'}" data-it="${esc(n)}" title="${esc(n)}"><div class="ov">${visual}</div><div>${esc(label)}</div><b>${countOf(n)}</b></div>`;
 const medalSVG = (l) => `<svg viewBox="0 0 32 42" width="38" height="46"><path d="M8 0h7l4 15h-7z" fill="#3b82f6"/><path d="M24 0h-7l-4 15h7z" fill="#ef4444"/><circle cx="16" cy="27" r="12" fill="#fbbf24" stroke="#92400e" stroke-width="2"/><text x="16" y="32" text-anchor="middle" font-size="14" font-weight="700" fill="#78350f">${l}</text></svg>`;
@@ -414,6 +472,7 @@ function renderItems() {
 }
 $('grid').addEventListener('click', (e) => {
   if (e.target.closest('[data-tri]')) { bumpTri(); return; }
+  const ac = e.target.closest('[data-acc]'); if (ac) { const a = DENTRY[+ac.dataset.acc]; st.forced = st.forced.includes(a) ? st.forced.filter((x) => x !== a) : [...st.forced, a]; save(); render(); return; }
   const dn = e.target.closest('[data-dun]'); if (dn) { toggleDun(dn.dataset.dun); return; }
   const tb = e.target.closest('#tabs');
   if (tb && TAB) { // clic sur les tablettes assemblées : on retrouve la pièce touchée grâce à la grille d'appartenance
@@ -447,8 +506,8 @@ function setEr(c1, c2, quiet) {
   if (!quiet) { save(); render(); }
 }
 function renderER() {
-  $('ertypes').innerHTML = GROUPS.map((g) => `<label><input type="checkbox" data-ert="${g}" ${st.erTypes[g] ? 'checked' : ''}> ${GLAB[g]}</label>`).join('') +
-    `<label><input type="checkbox" id="erdec" ${st.erDec ? 'checked' : ''}> découplées</label><label><input type="checkbox" id="erstrict" ${st.erStrict ? 'checked' : ''}> inconnues = fermées</label>`;
+  $('ertypes').innerHTML = GROUPS.map((g) => `<label title="${esc(GTIP[g])}"><input type="checkbox" data-ert="${g}" ${st.erTypes[g] ? 'checked' : ''}> ${GLAB[g]}</label>`).join('') +
+    `<label title="${esc(GTIP.dec)}"><input type="checkbox" id="erdec" ${st.erDec ? 'checked' : ''}> découplées</label><label title="${esc(GTIP.strict)}"><input type="checkbox" id="erstrict" ${st.erStrict ? 'checked' : ''}> inconnues = fermées</label>`;
   { const gs = {}; for (const [n, g] of L.statues) (gs[g || 'Autres'] = gs[g || 'Autres'] || []).push(n);
     $('spawn').innerHTML = '<option value="">Skyloft (Knight Academy)</option>' + Object.entries(gs).map(([g, ns]) => `<optgroup label="${esc(g)}">${ns.map((s) => `<option ${st.spawn === s ? 'selected' : ''}>${esc(s)}</option>`).join('')}</optgroup>`).join(''); }
   if (!$('ertype').options.length) GROUPS.forEach((g) => $('ertype').add(new Option(GLAB[g], g)));
@@ -457,7 +516,7 @@ function renderER() {
   $('erlist').innerHTML = cands.filter((c) => !q || lab(c).toLowerCase().includes(q)).map((c) => `<div class="erow"><span>${esc(lab(c))}</span><select data-c="${esc(c)}"><option value="">— inconnu —</option>` +
     cands.map((d) => `<option value="${esc(d)}" ${st.erc[c] === d ? 'selected' : ''}>→ ${esc(lab(d).split(' -> ').pop())}</option>`).join('') + '</select></div>').join('') || '<p class="mut">Aucune entrée.</p>';
   const known = Object.keys(st.erc).length;
-  $('ersum').textContent = Object.values(st.erTypes).some(Boolean) || st.spawn ? `${known} renseignée(s)${st.spawn ? ' · apparition : ' + st.spawn : ''}` : 'désactivé (entrées d\'origine)';
+  $('ersum').textContent = Object.values(st.erTypes).some(Boolean) || st.spawn ? `${known} renseignée(s)${st.erAmb ? ` · ${st.erAmb} ambiguë(s)` : ''}${st.erNote ? ' · ' + st.erNote : ''}${st.spawn ? ' · apparition : ' + st.spawn : ''}` : 'désactivé (entrées d\'origine)';
 }
 $('ertypes').addEventListener('change', (e) => { const t = e.target; if (t.dataset.ert) st.erTypes[t.dataset.ert] = t.checked; else if (t.id === 'erdec') st.erDec = t.checked; else if (t.id === 'erstrict') st.erStrict = t.checked; save(); render(); });
 $('spawn').onchange = () => { st.spawn = $('spawn').value; save(); render(); };
@@ -469,13 +528,54 @@ function applyErData(v) { // données envoyées par un client modifié : { entra
   if (v.spawn && (L.statues.some((s) => s[0] === v.spawn) || L.areas[v.spawn])) st.spawn = v.spawn;
   save(); render();
 }
-let erKeyName = '';
+let erKeyName = '', roomSeed = '', entKey = '';
+function applyEntrances(snap) { // instantané publié par le client SSHD : { clé: { door, arrival_connection, arrives_at, ambiguous, … } }
+  if (!snap || typeof snap !== 'object') return;
+  let amb = 0; const todo = [];
+  for (const r of Object.values(snap)) {
+    if (!r || typeof r !== 'object') continue;
+    if (r.ambiguous || !r.door) { amb++; continue; } // plusieurs portes possibles : on ne devine pas
+    if (r.door === SPAWN_KEY) { if (L.statues.some((s) => s[0] === r.arrives_at)) st.spawn = r.arrives_at; continue; }
+    if (CONN[r.door] && CONN[r.arrival_connection]) todo.push([r.door, r.arrival_connection]);
+  }
+  todo.forEach(([a, b]) => setEr(a, b, true)); // 1re passe : avec le couplage (déduit les retours non visités)
+  todo.forEach(([a, b]) => { st.erc[a] = b; }); // 2e passe : les observations réelles priment
+  const diff = todo.filter(([a, b]) => a !== b); // portes qui ne mènent PAS à leur arrivée d'origine
+  // Une porte restée normale ne change rien aux réglages saisis. À partir de 2 portes différentes, on passe en mode « entrées mélangées »
+  // pour leurs types (sauf un type que le joueur a décoché lui-même après un passage automatique).
+  if (diff.length >= 2) {
+    const on = [...new Set(diff.map(([a]) => CONN[a].g))].filter((g) => GROUPS.includes(g) && !st.erTypes[g] && !st.erAuto[g]);
+    on.forEach((g) => { st.erTypes[g] = true; st.erAuto[g] = true; });
+    if (on.length) st.erNote = 'mode mélangé activé automatiquement : ' + on.map((g) => GLAB[g]).join(', ');
+  }
+  st.erAmb = amb; save(); render();
+}
+$('erfile').onchange = async () => { try { const j = JSON.parse(await $('erfile').files[0].text()); applyEntrances(j.entrances || j); } catch (e) { alert('Fichier invalide'); } };
 
+$('locs').addEventListener('contextmenu', (e) => { // clic droit : masquer un check absent de la seed
+  const r = e.target.closest('.loc'); if (!r) return; e.preventDefault();
+  const c = +r.dataset.code; if (!st.hidden.includes(c) && confirm("Masquer ce check (il n'existe pas dans ta seed) ?\n\n" + r.textContent.trim().slice(0, 100))) { st.hidden.push(c); save(); render(); }
+});
+const PRESETS = [{ label: 'les 5 rubis du tunnel de sable (Lanayru Gorge)', names: [1, 2, 3, 4, 5].map((n) => `Lanayru Gorge - Rupee in Sandfall Tunnel near Life Tree ${n}`) }];
+function renderHidden() {
+  const el = $('hidbox'); if (!el) return;
+  const pre = PRESETS.map((p, k) => { const all = p.names.every((n) => st.hidden.includes(CODE[n])); return `<div class="erow"><span>${all ? 'Rétablir' : 'Masquer'} ${esc(p.label)}</span><button class="sec" data-preset="${k}">${all ? 'Rétablir' : 'Masquer'}</button></div>`; }).join('');
+  el.innerHTML = `<div class="osec">Checks impossibles ou absents de ta seed</div>${pre}` + st.hidden.map((c) => { const l = D.locations.find((x) => x[1] === c); return `<div class="erow"><span>${esc(l ? l[0] : '#' + c)}</span><button class="sec" data-unhide="${c}">Rétablir</button></div>`; }).join('');
+}
+$('hidbox').addEventListener('click', (e) => {
+  const b = e.target.closest('[data-unhide]'), p = e.target.closest('[data-preset]');
+  if (b) st.hidden = st.hidden.filter((c) => c !== +b.dataset.unhide);
+  else if (p) { const codes = PRESETS[+p.dataset.preset].names.map((n) => CODE[n]).filter(Boolean); st.hidden = codes.every((c) => st.hidden.includes(c)) ? st.hidden.filter((c) => !codes.includes(c)) : [...new Set([...st.hidden, ...codes])]; }
+  else return;
+  save(); render();
+});
 function render() {
+  HID = new Set(st.hidden);
+  if (st.sel.ent != null && (typeof st.sel.ent !== 'object' || !EK[st.sel.ent.k])) st.sel.ent = null; // ancien format
   const ctx = { act: activeSet(), done: checkedSet(), man: new Set(st.manual), ap: new Set(st.apChecked), lg: st.lg, lr: st.lg ? logic() : null };
-  renderMap(ctx); renderList(ctx); renderER(); renderOpt();
+  renderMap(ctx); renderList(ctx); renderER(); renderOpt(); renderHidden();
   const all = stats(() => true, ctx), sel = st.sel;
-  $('ltitle').textContent = `Checks — ${all.d}/${all.t}` + (st.lg ? ` · ${all.a} accessibles` : '') + (sel.area ? ` · ${sel.area}` : sel.zone ? ` · ${zoneByKey[sel.zone].fr}` : '');
+  $('ltitle').textContent = `Checks — ${all.d}/${all.t}` + (st.lg ? ` · ${all.a} accessibles` : '') + (sel.area ? ` · ${sel.area}` : sel.zone ? ` · ${zoneByKey[sel.zone].fr}` : '') + (sel.ent && st.erTypes[EK[sel.ent.k].g] ? ' · entrée de ' + EK[sel.ent.k].names[sel.ent.i] : '');
   $('active').textContent = `${all.t} checks actifs${ctx.act ? ' (serveur)' : ' (réglages)'}`;
   const names = [...new Set([...Object.keys(st.apItems), ...Object.keys(st.mitems)])].sort();
   renderItems();
@@ -509,8 +609,8 @@ $('rst').onclick = () => { if (confirm("Effacer coches manuelles, objets manuels
 // ---- Connexion Archipelago ----
 const setStatus = (t, c) => { $('status').textContent = t; $('status').className = c || ''; };
 function handle(sock, p) {
-  if (p.cmd === 'RoomInfo') sock.send(JSON.stringify([{ cmd: 'Connect', password: $('pwd').value, game: D.game, name: $('slot').value.trim(), uuid: 'sshd-tracker-' + Math.random().toString(36).slice(2),
-    version: { major: 0, minor: 6, build: 7, class: 'Version' }, items_handling: 7, tags: ['Tracker'], slot_data: true }]));
+  if (p.cmd === 'RoomInfo') { roomSeed = p.seed_name || ''; sock.send(JSON.stringify([{ cmd: 'Connect', password: $('pwd').value, game: D.game, name: $('slot').value.trim(), uuid: 'sshd-tracker-' + Math.random().toString(36).slice(2),
+    version: { major: 0, minor: 6, build: 7, class: 'Version' }, items_handling: 7, tags: ['Tracker'], slot_data: true }])); }
   else if (p.cmd === 'Connected') {
     st.apChecked = [...(p.checked_locations || [])]; st.apItems = {};
     st.active = [...st.apChecked, ...(p.missing_locations || [])];
@@ -526,12 +626,14 @@ function handle(sock, p) {
     for (const [t, k] of Object.entries(TY)) if (k in ov) st.erTypes[t] = ov[k] === 'on';
     if ('decouple_entrances' in ov) st.erDec = ov.decouple_entrances === 'on';
     erKeyName = `sshd_er_${p.team}_${p.slot}`;
-    sock.send(JSON.stringify([{ cmd: 'Get', keys: [erKeyName] }, { cmd: 'SetNotify', keys: [erKeyName] }]));
+    entKey = `sshd_${roomSeed}_${$('slot').value.trim()}_entrances`;
+    sock.send(JSON.stringify([{ cmd: 'Get', keys: [erKeyName, entKey] }, { cmd: 'SetNotify', keys: [erKeyName, entKey] }]));
     save();
     setStatus(`Connecté (${$('slot').value})`, 'ok'); render();
   } else if (p.cmd === 'ConnectionRefused') setStatus('Refusé : ' + (p.errors || []).join(', '), 'err');
-  else if (p.cmd === 'Retrieved') applyErData((p.keys || {})[erKeyName]);
+  else if (p.cmd === 'Retrieved') { applyErData((p.keys || {})[erKeyName]); applyEntrances((p.keys || {})[entKey]); }
   else if (p.cmd === 'SetReply' && p.key === erKeyName) applyErData(p.value);
+  else if (p.cmd === 'SetReply' && p.key === entKey) applyEntrances(p.value);
   else if (p.cmd === 'ReceivedItems') {
     if (p.index === 0) st.apItems = {};
     for (const it of p.items) { const n = D.items[it.item] || `Objet #${it.item}`; st.apItems[n] = (st.apItems[n] || 0) + 1; }

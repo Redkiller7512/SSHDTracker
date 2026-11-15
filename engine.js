@@ -2,11 +2,11 @@
 // Hypothèses : entrées non mélangées, le jour et la nuit sont toujours disponibles.
 (function (root) {
   const norm = (s) => String(s).toLowerCase().replace(/[^a-z0-9]/g, '');
-  function compute(L, inv, over, er) { // er = { ov: {connexion: zone d'arrivée}, closed: Set de connexions inconnues }
+  function compute(L, inv, over, er, forced) { // er = { ov: {connexion: zone d'arrivée}, closed: Set de connexions inconnues }
     const S = {};
     for (const k in L.settings) S[k] = over && k in over ? over[k] : L.settings[k].d;
     const idx = (n, v) => { const o = L.settings[n].o; return o.length ? o.indexOf(String(v)) : Number(v); };
-    const reach = new Set(['Root']), ev = new Set();
+    const reach = new Set(['Root', ...(forced || [])]), ev = new Set(); // forced = zones déjà atteintes par le joueur
     let mc = new Map();
     const have = (i) => inv[i] || 0;
     function E(r) {

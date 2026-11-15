@@ -1,32 +1,25 @@
-# Autotracking des entrées (pour ton client Archipelago modifié)
+# Autotracking des entrées (apworld sshd_v3f / client SSHD)
 
-Le tracker sait déjà gérer les entrées mélangées à la main (panneau « Entrées mélangées »). Pour qu'il les suive tout seul,
-ton client doit écrire une valeur dans le **DataStorage** du serveur Archipelago. Le tracker la lit à la connexion (`Get`) et
-à chaque changement (`SetNotify`), puis met à jour ses portes sans rien demander.
+Le client SSHD de l'apworld `sshd_v3f` détecte les portes empruntées en lisant la mémoire du jeu (module `EntranceTracker.py`)
+et les publie sur le serveur Archipelago. Le tracker les lit tout seul, sans réglage.
 
-## Clé
+## Clé du DataStorage
 
-`sshd_er_<team>_<slot>` — par exemple `sshd_er_0_1` pour l'équipe 0, slot 1.
+`sshd_<nom_de_la_seed>_<nom_du_slot>_entrances` (le nom de la seed vient de `RoomInfo.seed_name`, le slot est celui saisi dans la barre du haut).
+Le client écrit avec `Set` (opération `update`) un dictionnaire `{ clé: enregistrement }` ; le tracker fait `Get` puis `SetNotify`.
 
-## Valeur (JSON)
+## Enregistrement utilisé
 
-```json
-{
-  "entrances": {
-    "Deep Woods -> Skyview Entry": "Near Temple Entrance -> Earth Temple First Room"
-  },
-  "spawn": "Faron Woods Entry Statue"
-}
-```
+- `door` : connexion de la porte empruntée (ex. `Deep Woods -> Skyview Entry`) — absent ou `ambiguous: true` si plusieurs portes possibles (ignoré par le tracker, compté comme « ambiguë »).
+- `arrival_connection` : connexion dont on rejoint l'arrivée (ex. `Near Temple Entrance -> Earth Temple First Room`) → la porte mène là où mène cette connexion.
+- `arrives_at` : zone d'arrivée. Pour la porte `Link's Spawn -> Knight Academy`, c'est le point d'apparition (une statue d'oiseau).
 
-- **`entrances`** : pour chaque porte empruntée, `"<connexion de la porte prise>": "<connexion dont on rejoint l'arrivée>"`.
-  Ici, entrer par `Deep Woods -> Skyview Entry` t'a fait arriver là où mène normalement `Near Temple Entrance -> Earth Temple First Room`.
-  Les noms sont les champs `connection` de `entrance_shuffle_data.yaml` (dans l'apworld, dossier `sshd-rando-backend/data/`).
-- **`spawn`** (facultatif) : zone d'apparition, parmi les statues d'oiseau (ex. `Faron Woods Entry Statue`).
+## Ce que fait le tracker
 
-## Notes
+- applique chaque porte, déduit les retours (sauf si « découplées » est coché), puis laisse les observations réelles prendre le dessus ;
+- une porte observée **normale** (elle mène à son arrivée d'origine) ne change jamais tes réglages ;
+- dès que **2 portes** ne mènent pas à leur arrivée d'origine, il passe tout seul en mode « entrées mélangées » pour leurs types (donjons, portes, intérieurs…). Si tu décoches ensuite un type qu'il avait activé, il ne le réactive pas ;
+- règle le point d'apparition ;
+- hors connexion : bouton d'import d'un fichier `entrances_….json` (dossier `~/.sshd_ap_tracker/`) ou `tracker_state.json` dans le panneau « Entrées mélangées ».
 
-- Le tracker applique le **couplage** automatiquement (sauf si « découplées » est coché) : si tu renseignes une porte, le retour
-  correspondant est déduit. Un client qui envoie les deux sens ne gêne pas.
-- Pour écrire la valeur depuis le client : paquet `Set` avec `key`, `default: {}` et une opération `update` avec la nouvelle entrée.
-- Tant qu'aucune donnée n'arrive, tout reste modifiable à la main dans le tracker ; les saisies manuelles et automatiques se mélangent.
+L'ancienne clé `sshd_er_<équipe>_<slot>` reste lue (compatibilité).
